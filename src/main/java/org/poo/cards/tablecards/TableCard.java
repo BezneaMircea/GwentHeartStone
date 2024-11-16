@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.cards.Card;
 import org.poo.fileio.CardInput;
 import org.poo.main.Errors;
+import org.poo.main.Game;
 import org.poo.main.GameTable;
 import org.poo.main.JsonNode;
 
@@ -13,6 +14,22 @@ public class TableCard extends Card {
     private int attackDamage;
     private boolean frozen;
     private int rowToPlace;
+
+    protected static final String isFrozen;
+    protected static final String cardAlreadyAttacked;
+    protected static final String attackedDontBelongCur;
+    protected static final String attackedDontBelongEnnemy;
+    protected static final String attackerDontBelongCur;
+    protected static final String notTank;
+
+    static {
+        isFrozen = "Attacker card is frozen.";
+        cardAlreadyAttacked = "Attacker card has already attacked this turn.";
+        attackedDontBelongCur = "Attacked card does not belong to the current player.";
+        attackedDontBelongEnnemy = "Attacked card does not belong to the enemy.";
+        attackerDontBelongCur = "Attacker card does not belong to the current player.";
+        notTank = "Attacked card is not of type 'Tank'.";
+    }
 
     public TableCard(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
@@ -33,10 +50,10 @@ public class TableCard extends Card {
             return null;
 
         if (frozen)
-            return Errors.isFrozen;
+            return isFrozen;
 
         if (getHasAttacked())
-            return Errors.cardAlreadyAttacked;
+            return cardAlreadyAttacked;
 
         return useAbility(attackedCard, table, curPlayerId);
     }
@@ -59,7 +76,7 @@ public class TableCard extends Card {
         if (attackedCard.getHealth() <= 0) {
             attackedCard.setHealth(0);
             if (attackedCard.isHero())
-                return Errors.gameEnded(curPlayerId);
+                return Game.gameEnded(curPlayerId);
 
             table.removeCard(attackedCard);
         }
@@ -71,41 +88,43 @@ public class TableCard extends Card {
     private String
     getAttackCardError(GameTable table, int curPlayerId, Card attackedCard) {
         if (getBelongsTo() != curPlayerId)
-            return Errors.attackerDontBelongCur;
+            return attackerDontBelongCur;
 
         if (attackedCard.getBelongsTo() == curPlayerId)
-            return Errors.attackedDontBelongEnnemy;
+            return attackedDontBelongEnnemy;
 
         if (getHasAttacked())
-            return Errors.cardAlreadyAttacked;
+            return cardAlreadyAttacked;
 
         if (isFrozen())
-            return Errors.isFrozen;
+            return isFrozen;
 
         int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
-            return Errors.notTank;
+            return notTank;
 
         return Errors.noError;
     }
+
 
     private String
     getAttackHeroError(GameTable table, int curPlayerId, Card attackedCard) {
         if (attackedCard.getBelongsTo() == curPlayerId)
-            return Errors.attackedDontBelongEnnemy;
+            return attackedDontBelongEnnemy;
 
         if (isFrozen())
-            return Errors.isFrozen;
+            return isFrozen;
 
         if (getHasAttacked())
-            return Errors.cardAlreadyAttacked;
+            return cardAlreadyAttacked;
 
         int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
-            return Errors.notTank;
+            return notTank;
 
         return Errors.noError;
     }
+
 
     @Override
     public ObjectNode writeCard() {
@@ -121,6 +140,7 @@ public class TableCard extends Card {
 
         return minionNode;
     }
+
 
     @Override
     public int getAttackDamage() {

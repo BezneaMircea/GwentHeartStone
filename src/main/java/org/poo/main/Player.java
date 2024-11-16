@@ -13,7 +13,7 @@ import org.poo.fileio.CardInput;
 import java.util.ArrayList;
 
 
-public class Player {
+public final class Player {
     private final ArrayList<Card> deck;
     private Card hero;
     private final ArrayList<Card> hand;
@@ -82,14 +82,13 @@ public class Player {
     public String placeCard(GameTable table, int handIdx) {
         Card card = hand.get(handIdx);
 
-        String error = Errors.placeCardError(card, table, mana);
+        String error = table.addCard(card, mana);
         if (error != null)
             return error;
 
-        table.addCard(card);
         hand.remove(handIdx);
         mana -= card.getMana();
-        return null;
+        return Errors.noError;
     }
 
     public ArrayList<Card> getDeck() {

@@ -15,11 +15,11 @@ public final class TheCursedOne extends BackRowCard {
     @Override
     protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
         if (attackedCard.getBelongsTo() == currentPlayer)
-            return Errors.attackedDontBelongEnnemy;
+            return attackedDontBelongEnnemy;
 
         if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
                 && !attackedCard.isTank())
-            return Errors.notTank;
+            return notTank;
 
         int cardAttackDamage = attackedCard.getAttackDamage();
         attackedCard.setAttackDamage(attackedCard.getHealth());

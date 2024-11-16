@@ -10,6 +10,7 @@ public class GamesSetup {
     public static final int playerTwoIdx = 2;
     public static final int initialMana = 1;
     public static final int maxManaGiven = 10;
+
     private final DecksInput playerOneDecks;
     private final DecksInput playerTwoDecks;
     private final ArrayList<GameInput> games;

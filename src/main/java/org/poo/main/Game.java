@@ -21,9 +21,17 @@ public class Game {
     private int currentPlayer;
     private final int startingPlayer;
     private final GameTable table;
+
     private static int totalGamesPlayed = 0;
     private static int playerOneWins = 0;
     private static int playerTwoWins = 0;
+    public static final String playerOneWon;
+    public static final String playerTwoWon;
+
+    static {
+        playerOneWon = "Player one killed the enemy hero.";
+        playerTwoWon = "Player two killed the enemy hero.";
+    }
 
     public Game(Player playerOne, Player playerTwo, long seed, int currentPlayer) {
         this.playerOne = playerOne;
@@ -32,7 +40,7 @@ public class Game {
         this.currentPlayer = currentPlayer;
         startingPlayer = currentPlayer;
         table = new GameTable();
-        manaGiven = 1;
+        manaGiven = GamesSetup.initialMana;
 
         this.seed = new Random();
 
@@ -45,13 +53,20 @@ public class Game {
         totalGamesPlayed++;
     }
 
+    public static String gameEnded(int currentPlayerId) {
+        if (currentPlayerId == GamesSetup.playerOneIdx)
+            return playerOneWon;
+
+        return playerTwoWon;
+    }
+
+
     private void ShuffleDeck(ArrayList<Card> deck, Random seed) {
         Collections.shuffle(deck, this.seed);
     }
 
-
     private Player getInstanceOfCurrentPlayer() {
-        if (currentPlayer == 1)
+        if (currentPlayer == GamesSetup.playerOneIdx)
             return playerOne;
 
         return playerTwo;
@@ -124,14 +139,14 @@ public class Game {
     }
 
     private ObjectNode getCardsInHand(ActionsInput action) {
-        if (action.getPlayerIdx() == 1)
+        if (action.getPlayerIdx() == GamesSetup.playerOneIdx)
             return JsonNode.writeCardsInHand(action, playerOne.getHand());
         else
             return JsonNode.writeCardsInHand(action, playerTwo.getHand());
     }
 
     private ObjectNode getPlayerMana(ActionsInput action) {
-        if (action.getPlayerIdx() == 1)
+        if (action.getPlayerIdx() == GamesSetup.playerOneIdx)
             return JsonNode.writePlayerMana(action, playerOne.getMana());
         else
             return JsonNode.writePlayerMana(action, playerTwo.getMana());
@@ -143,9 +158,13 @@ public class Game {
 
     private ObjectNode getCardAtPosition(ActionsInput action) {
         Coordinates wantedCardCord = new Coordinates(action.getX(), action.getY());
+        Card wantedCard = table.getElement(wantedCardCord);
 
-        String error = Errors.noCardAtPositionError(wantedCardCord, table);
-        return JsonNode.writeCardAtPosition(action, table.getElement(wantedCardCord), error);
+        String error = null;
+        if (wantedCard == null)
+            error = GameTable.noCardAtGivenPos;
+
+        return JsonNode.writeCardAtPosition(action, wantedCard, error);
     }
 
     private ObjectNode cardUsesAttack(ActionsInput action) {
@@ -186,10 +205,10 @@ public class Game {
         Player player = getInstanceOfWaitingPlayer();
         String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
 
-        if (Errors.playerOneWon.equals(res))
+        if (playerOneWon.equals(res))
             playerOneWins++;
 
-        if (Errors.playerTwoWon.equals(res))
+        if (playerTwoWon.equals(res))
             playerTwoWins++;
 
         return JsonNode.writeUseAttackHero(action, res);

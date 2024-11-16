@@ -10,14 +10,13 @@ import org.poo.main.Player;
 
 
 public class Hero extends Card {
-    public static final int heroInitialHealth;
+    public static final int heroInitialHealth = 30;
     public static final String noManaHero;
     public static final String alreadyAttacked;
     public static final String rowNotEnemy;
     public static final String rowNotCur;
 
     static {
-        heroInitialHealth = 30;
         noManaHero = "Not enough mana to use hero's ability.";
         alreadyAttacked = "Hero has already attacked this turn.";
         rowNotEnemy = "Selected row does not belong to the enemy.";

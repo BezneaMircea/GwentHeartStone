@@ -15,7 +15,7 @@ public final class Disciple extends BackRowCard {
     @Override
     protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
         if (attackedCard.getBelongsTo() != currentPlayer)
-            return Errors.attackedDontBelongCur;
+            return attackedDontBelongCur;
 
         attackedCard.setHealth(attackedCard.getHealth() + 2);
         setHasAttacked(true);
