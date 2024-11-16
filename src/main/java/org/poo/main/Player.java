@@ -1,6 +1,7 @@
 package org.poo.main;
 
 import org.poo.cards.*;
+import org.poo.cards.heroes.*;
 import org.poo.fileio.CardInput;
 
 import java.util.ArrayList;
@@ -8,13 +9,24 @@ import java.util.ArrayList;
 
 public class Player {
     private final ArrayList<Card> deck;
-    private final Card hero;
+    private Card hero;
     private final ArrayList<Card> hand;
     private int mana;
     private final int playerId;
 
     public Player(CardInput hero, ArrayList<CardInput> deck, int playerId) {
-        this.hero = new Hero(hero, playerId);
+        String heroName = hero.getName();
+        switch (heroName) {
+            case "Lord Royce": this.hero = new LordRoyce(hero, playerId);
+            break;
+            case "Empress Thorina": this.hero = new EmpressThorina(hero, playerId);
+            break;
+            case "King Mudface": this.hero = new KingMudface(hero, playerId);
+            break;
+            case "General Kocioraw": this.hero = new GeneralKocioraw(hero, playerId);
+            break;
+            default: System.err.println("Invalid hero name: " + heroName);
+        }
 
         this.deck = new ArrayList<Card>();
         for (CardInput card : deck) {
@@ -40,6 +52,7 @@ public class Player {
         this.playerId = playerId;
         mana = 0;
     }
+
 
     public void drawCard() {
         if (deck.isEmpty())

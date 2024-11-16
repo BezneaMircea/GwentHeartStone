@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import org.poo.fileio.CardInput;
 import org.poo.main.GameTable;
+import org.poo.main.Player;
 
 
 public class Card {
@@ -50,6 +51,10 @@ public class Card {
         return null;
     }
 
+    public String
+    useHeroAbility(GameTable table, int affectedRow, Player currentPlayer) {
+        return null;
+    }
 
 
 

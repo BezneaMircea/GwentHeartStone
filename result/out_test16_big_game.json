@@ -40,6 +40,10 @@
     "name" : "The Ripper"
   }
 }, {
+  "command" : "useHeroAbility",
+  "affectedRow" : 0,
+  "error" : "Not enough mana to use hero's ability."
+}, {
   "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
@@ -92,12 +96,16 @@
   "playerIdx" : 1,
   "output" : 3
 }, {
+  "command" : "useHeroAbility",
+  "affectedRow" : 0,
+  "error" : "Selected row does not belong to the current player."
+}, {
   "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
     "mana" : 2,
-    "attackDamage" : 2,
+    "attackDamage" : 3,
     "health" : 2,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
@@ -120,7 +128,7 @@
   "command" : "getCardsOnTable",
   "output" : [ [ {
     "mana" : 2,
-    "attackDamage" : 2,
+    "attackDamage" : 3,
     "health" : 2,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
@@ -139,13 +147,6 @@
     "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper"
-  }, {
-    "mana" : 3,
-    "attackDamage" : 0,
-    "health" : 2,
-    "description" : "Premium card: You shall not pass, you shall not prevail, you shall perish.",
-    "colors" : [ "Brown", "Blue" ],
-    "name" : "Warden"
   }, {
     "mana" : 4,
     "attackDamage" : 5,

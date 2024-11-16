@@ -18,16 +18,20 @@ public final class GameTable {
             table.add(new ArrayList<Card>());
     }
 
+    public static boolean
+    rowBelongsPlayer(int row, int playerId) {
+        if (playerId == GamesSetup.playerOneIdx)
+            return row == playerOneBackRow || row == playerOneFrontRow;
+        return row == playerTwoFrontRow || row == playerTwoBackRow;
+    }
+
+
     public Card getElement(Coordinates cord) {
         try {
             return table.get(cord.getX()).get(cord.getY());
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-    }
-
-    public void removeCard(Coordinates cord) {
-        table.get(cord.getX()).remove(cord.getY());
     }
 
     public void removeCard(Card card) {
@@ -43,7 +47,7 @@ public final class GameTable {
     }
 
     public boolean doesPlayerHaveTanks(int playerIdx) {
-        if (playerIdx == 1) {
+        if (playerIdx == GamesSetup.playerOneIdx) {
             for (Card card : table.get(playerOneFrontRow))
                 if (card.isTank())
                     return true;

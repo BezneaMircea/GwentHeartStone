@@ -176,11 +176,16 @@ public class Game {
 
         return JsonNode.writeUseAttackHero(action, res);
     }
-//    private ObjectNode useHeroAbility(ActionsInput action) {
-//        int affectedRow = action.getAffectedRow();
-//        Player player = getInstanceOfCurrentPlayer();
-//
-//    }
+
+    private ObjectNode useHeroAbility(ActionsInput action) {
+        int affectedRow = action.getAffectedRow();
+        Player player = getInstanceOfCurrentPlayer();
+        Card hero = player.getHero();
+
+        String error = hero.useHeroAbility(table, affectedRow, player);
+
+        return JsonNode.writeUseHeroAbility(action, error);
+    }
 
     private ObjectNode performAction(ActionsInput action) {
         String command = action.getCommand();
@@ -197,7 +202,7 @@ public class Game {
             case "cardUsesAttack" -> cardUsesAttack(action);
             case "cardUsesAbility" -> cardUsesAbility(action);
             case "useAttackHero" -> useAttackHero(action);
-            ///case "useHeroAbility" -> useHeroAbility(action);
+            case "useHeroAbility" -> useHeroAbility(action);
             default -> null;
         };
 

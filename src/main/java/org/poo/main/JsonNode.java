@@ -167,4 +167,17 @@ public final class JsonNode {
         return useAttackHeroNode;
     }
 
+    public static ObjectNode
+    writeUseHeroAbility(ActionsInput action, String error) {
+        if (error == null)
+            return null;
+
+        ObjectNode heroAbilityNode = mapper.createObjectNode();
+
+        heroAbilityNode.put("command", action.getCommand());
+        heroAbilityNode.put("affectedRow", action.getAffectedRow());
+        heroAbilityNode.put("error", error);
+
+        return heroAbilityNode;
+    }
 }
