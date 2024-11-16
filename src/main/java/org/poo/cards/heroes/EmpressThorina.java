@@ -35,10 +35,11 @@ public final class EmpressThorina extends Hero {
     @Override
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {
-        if (GameTable.rowBelongsPlayer(affectedRow, currentPlayerId))
+        if (table.rowBelongsPlayer(affectedRow, currentPlayerId))
             return rowNotEnemy;
 
         lowBlow(table, affectedRow);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

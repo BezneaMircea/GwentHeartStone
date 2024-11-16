@@ -1,7 +1,8 @@
-package org.poo.cards;
+package org.poo.cards.tablecards;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.poo.cards.Card;
 import org.poo.fileio.CardInput;
 import org.poo.main.Errors;
 import org.poo.main.GameTable;
@@ -19,24 +20,56 @@ public class TableCard extends Card {
         frozen = false;
     }
 
+
+    protected String
+    useAbility(Card attackedCard, GameTable table, int curPlayerId) {
+        return null;
+    }
+
     @Override
-    public ObjectNode writeCard() {
-        ObjectNode minionNode = JsonNode.mapper.createObjectNode();
+    public String
+    useCardAbility(Card attackedCard, GameTable table, int curPlayerId) {
+        if (attackedCard == null)
+            return null;
 
-        minionNode.put("mana", getMana());
-        minionNode.put("attackDamage", getAttackDamage());
-        minionNode.put("health", getHealth());
-        minionNode.put("description", getDescription());
-        ArrayNode colorArray = JsonNode.writeColors(getColors());
-        minionNode.set("colors", colorArray);
-        minionNode.put("name", getName());
+        if (frozen)
+            return Errors.isFrozen;
 
-        return minionNode;
+        if (getHasAttacked())
+            return Errors.cardAlreadyAttacked;
+
+        return useAbility(attackedCard, table, curPlayerId);
+    }
+
+    @Override
+    public String
+    attackCard(GameTable table, int curPlayerId, Card attackedCard) {
+        String error;
+        if (attackedCard.isHero()) {
+            error = getAttackHeroError(table, curPlayerId, attackedCard);
+        } else {
+            error = getAttackCardError(table, curPlayerId, attackedCard);
+        }
+
+        if (error != null)
+            return error;
+
+        attackedCard.setHealth(attackedCard.getHealth() - attackDamage);
+        setHasAttacked(true);
+        if (attackedCard.getHealth() <= 0) {
+            attackedCard.setHealth(0);
+            if (attackedCard.isHero())
+                return Errors.gameEnded(curPlayerId);
+
+            table.removeCard(attackedCard);
+        }
+
+        return Errors.noError;
     }
 
 
     private String
-    getAttackCardOutput(GameTable table, int curPlayerId, Card attackedCard) {
+    getAttackCardError(GameTable table, int curPlayerId, Card attackedCard) {
         if (getBelongsTo() != curPlayerId)
             return Errors.attackerDontBelongCur;
 
@@ -57,7 +90,7 @@ public class TableCard extends Card {
     }
 
     private String
-    getAttackHeroOutput(GameTable table, int curPlayerId, Card attackedCard) {
+    getAttackHeroError(GameTable table, int curPlayerId, Card attackedCard) {
         if (attackedCard.getBelongsTo() == curPlayerId)
             return Errors.attackedDontBelongEnnemy;
 
@@ -75,51 +108,19 @@ public class TableCard extends Card {
     }
 
     @Override
-    public String
-    attackCard(GameTable table, int curPlayerId, Card attackedCard) {
-        String output;
-        if (attackedCard.isHero()) {
-            output = getAttackHeroOutput(table, curPlayerId, attackedCard);
-        } else {
-            output = getAttackCardOutput(table, curPlayerId, attackedCard);
-        }
+    public ObjectNode writeCard() {
+        ObjectNode minionNode = JsonNode.mapper.createObjectNode();
 
-        if (output != null)
-            return output;
+        minionNode.put("mana", getMana());
+        minionNode.put("attackDamage", getAttackDamage());
+        minionNode.put("health", getHealth());
+        minionNode.put("description", getDescription());
+        ArrayNode colorArray = JsonNode.writeColors(getColors());
+        minionNode.set("colors", colorArray);
+        minionNode.put("name", getName());
 
-        attackedCard.setHealth(attackedCard.getHealth() - attackDamage);
-        setHasAttacked(true);
-        if (attackedCard.getHealth() <= 0) {
-            attackedCard.setHealth(0);
-            if (attackedCard.isHero())
-                return Errors.gameEnded(curPlayerId);
-
-            table.removeCard(attackedCard);
-        }
-
-        return Errors.noError;
+        return minionNode;
     }
-
-
-
-    protected String useAbility(Card attackedCard, GameTable table, int curPlayerId) {
-        return null;
-    }
-
-    @Override
-    public String useCardAbility(Card attackedCard, GameTable table, int curPlayerId) {
-        if (attackedCard == null)
-            return null;
-
-        if (frozen)
-            return Errors.isFrozen;
-
-        if (getHasAttacked())
-            return Errors.cardAlreadyAttacked;
-
-        return useAbility(attackedCard, table, curPlayerId);
-    }
-
 
     @Override
     public int getAttackDamage() {

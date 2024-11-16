@@ -1,5 +1,6 @@
-package org.poo.cards;
+package org.poo.cards.tablecards.special;
 
+import org.poo.cards.tablecards.FrontRowCard;
 import org.poo.fileio.CardInput;
 
 public final class Tank extends FrontRowCard {

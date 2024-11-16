@@ -180,4 +180,41 @@ public final class JsonNode {
 
         return heroAbilityNode;
     }
+
+    public static ObjectNode
+    writeFrozenCardsOnTable(ActionsInput action, GameTable table) {
+        ObjectNode frozenCardsNode = mapper.createObjectNode();
+
+        ArrayNode frozenCards = mapper.createArrayNode();
+        for (ArrayList<Card> row : table.getTable())
+            for (Card card : row)
+                if (card.isFrozen())
+                    frozenCards.add(writeCard(card));
+
+        frozenCardsNode.put("command", action.getCommand());
+        frozenCardsNode.set("output", frozenCards);
+
+        return frozenCardsNode;
+    }
+
+    public static ObjectNode
+    writeTotalGamesPlayed(ActionsInput action, int totalGamesPlayed) {
+        ObjectNode totalGamesPlayedNode = mapper.createObjectNode();
+
+        totalGamesPlayedNode.put("command", action.getCommand());
+        totalGamesPlayedNode.put("output", totalGamesPlayed);
+
+        return totalGamesPlayedNode;
+    }
+
+    public static ObjectNode
+    writePlayerWins(ActionsInput action, int playerWins) {
+        ObjectNode playerWinsNode = mapper.createObjectNode();
+
+        playerWinsNode.put("command", action.getCommand());
+        playerWinsNode.put("output", playerWins);
+
+        return playerWinsNode;
+    }
+
 }

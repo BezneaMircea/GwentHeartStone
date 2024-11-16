@@ -1,12 +1,14 @@
-package org.poo.cards;
+package org.poo.cards.tablecards.special;
 
-import org.poo.main.Errors;
+
+import org.poo.cards.Card;
+import org.poo.cards.tablecards.FrontRowCard;
 import org.poo.fileio.CardInput;
+import org.poo.main.Errors;
 import org.poo.main.GameTable;
 
-
-public final class TheRipper extends FrontRowCard {
-    public TheRipper(CardInput cardInput, int belongsTo) {
+public final class Miraj extends FrontRowCard {
+    public Miraj(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -19,10 +21,9 @@ public final class TheRipper extends FrontRowCard {
                 && !attackedCard.isTank())
             return Errors.notTank;
 
-
-        attackedCard.setAttackDamage(attackedCard.getAttackDamage() - 2);
-        if (attackedCard.getAttackDamage() < 0)
-            attackedCard.setAttackDamage(0);
+        int aux = getHealth();
+        setHealth(attackedCard.getHealth());
+        attackedCard.setHealth(aux);
         setHasAttacked(true);
 
         return Errors.noError;

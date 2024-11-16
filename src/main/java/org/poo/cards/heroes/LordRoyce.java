@@ -19,10 +19,11 @@ public final class LordRoyce extends Hero {
     @Override
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {
-        if (GameTable.rowBelongsPlayer(affectedRow, currentPlayerId))
+        if (table.rowBelongsPlayer(affectedRow, currentPlayerId))
             return rowNotEnemy;
 
         subZero(table, affectedRow);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

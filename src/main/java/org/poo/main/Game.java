@@ -10,6 +10,7 @@ import org.poo.fileio.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
 
 public class Game {
@@ -20,6 +21,9 @@ public class Game {
     private int currentPlayer;
     private final int startingPlayer;
     private final GameTable table;
+    private static int totalGamesPlayed = 0;
+    private static int playerOneWins = 0;
+    private static int playerTwoWins = 0;
 
     public Game(Player playerOne, Player playerTwo, long seed, int currentPlayer) {
         this.playerOne = playerOne;
@@ -37,6 +41,8 @@ public class Game {
 
         this.seed.setSeed(seed);
         ShuffleDeck(playerTwo.getDeck(), this.seed);
+
+        totalGamesPlayed++;
     }
 
     private void ShuffleDeck(ArrayList<Card> deck, Random seed) {
@@ -72,16 +78,22 @@ public class Game {
             manaGiven++;
     }
 
+    private void reset(Player player) {
+        player.getHero().setHasAttacked(false);
+        table.resetAttack(player);
+    }
+
     private ObjectNode endPlayerTurn() {
         if (startingPlayer != currentPlayer)
             newRound();
 
-        if (currentPlayer == GamesSetup.playerOneIdx)
+        if (currentPlayer == GamesSetup.playerOneIdx) {
+            reset(playerOne);
             currentPlayer = GamesSetup.playerTwoIdx;
-        else
+        } else {
+            reset(playerTwo);
             currentPlayer = GamesSetup.playerOneIdx;
-
-        table.resetAttack();
+        }
         return null;
     }
 
@@ -174,6 +186,12 @@ public class Game {
         Player player = getInstanceOfWaitingPlayer();
         String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
 
+        if (Errors.playerOneWon.equals(res))
+            playerOneWins++;
+
+        if (Errors.playerTwoWon.equals(res))
+            playerTwoWins++;
+
         return JsonNode.writeUseAttackHero(action, res);
     }
 
@@ -184,7 +202,20 @@ public class Game {
 
         String error = hero.useHeroAbility(table, affectedRow, player);
 
+        if (Objects.equals(error, Errors.noError))
+            player.setMana(player.getMana() - hero.getMana());
+
+
         return JsonNode.writeUseHeroAbility(action, error);
+    }
+
+    private ObjectNode getFrozenCardsOnTable(ActionsInput action) {
+        return JsonNode.writeFrozenCardsOnTable(action, table);
+    }
+
+    private ObjectNode getTotalGamesPlayed(ActionsInput action) {
+        int gamesPlayed = totalGamesPlayed;
+        return JsonNode.writeTotalGamesPlayed(action, gamesPlayed);
     }
 
     private ObjectNode performAction(ActionsInput action) {
@@ -193,16 +224,20 @@ public class Game {
             case "getPlayerDeck" -> getPlayerDeck(action);
             case "getPlayerHero" -> getPlayerHero(action);
             case "getPlayerTurn" -> getPlayerTurn(action);
-            case "endPlayerTurn" -> endPlayerTurn();
-            case "placeCard" -> placeCard(action);
             case "getCardsInHand" -> getCardsInHand(action);
             case "getPlayerMana" -> getPlayerMana(action);
             case "getCardsOnTable" -> getCardsOnTable(action);
             case "getCardAtPosition" -> getCardAtPosition(action);
+            case "getFrozenCardsOnTable" -> getFrozenCardsOnTable(action);
             case "cardUsesAttack" -> cardUsesAttack(action);
             case "cardUsesAbility" -> cardUsesAbility(action);
             case "useAttackHero" -> useAttackHero(action);
             case "useHeroAbility" -> useHeroAbility(action);
+            case "placeCard" -> placeCard(action);
+            case "endPlayerTurn" -> endPlayerTurn();
+            case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
+            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, playerOneWins);
+            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, playerTwoWins);
             default -> null;
         };
 
@@ -210,7 +245,6 @@ public class Game {
 
     public void performAllActions(ArrayList<ActionsInput> actions, ArrayNode output) {
         newRound();
-        /* make later*/
         for (ActionsInput action : actions) {
             ObjectNode actionOutput = performAction(action);
             if (actionOutput != null)

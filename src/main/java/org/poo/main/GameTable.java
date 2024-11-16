@@ -18,7 +18,7 @@ public final class GameTable {
             table.add(new ArrayList<Card>());
     }
 
-    public static boolean
+    public boolean
     rowBelongsPlayer(int row, int playerId) {
         if (playerId == GamesSetup.playerOneIdx)
             return row == playerOneBackRow || row == playerOneFrontRow;
@@ -59,12 +59,23 @@ public final class GameTable {
         return false;
     }
 
-    public void resetAttack() {
-        for (ArrayList<Card> arrayList : table)
-            for (Card card : arrayList) {
-                card.setHasAttacked(false);
-                card.setFrozen(false);
-            }
+
+
+    private void resetCardsOnRow(int row) {
+        for (Card card : table.get(row)) {
+            card.setHasAttacked(false);
+            card.setFrozen(false);
+        }
+    }
+
+    public void resetAttack(Player player) {
+        if (player.getPlayerId() == GamesSetup.playerOneIdx) {
+            resetCardsOnRow(playerOneFrontRow);
+            resetCardsOnRow(playerOneBackRow);
+        } else {
+            resetCardsOnRow(playerTwoFrontRow);
+            resetCardsOnRow(playerTwoBackRow);
+        }
     }
 
     public ArrayList<ArrayList<Card>> getTable() {

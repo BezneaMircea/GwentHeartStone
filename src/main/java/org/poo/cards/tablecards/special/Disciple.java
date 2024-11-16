@@ -1,6 +1,8 @@
-package org.poo.cards;
+package org.poo.cards.tablecards.special;
 
 
+import org.poo.cards.tablecards.BackRowCard;
+import org.poo.cards.Card;
 import org.poo.fileio.CardInput;
 import org.poo.main.Errors;
 import org.poo.main.GameTable;

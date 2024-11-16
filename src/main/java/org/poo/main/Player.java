@@ -2,6 +2,12 @@ package org.poo.main;
 
 import org.poo.cards.*;
 import org.poo.cards.heroes.*;
+import org.poo.cards.tablecards.special.Disciple;
+import org.poo.cards.tablecards.special.Miraj;
+import org.poo.cards.tablecards.special.TheCursedOne;
+import org.poo.cards.tablecards.special.TheRipper;
+import org.poo.cards.tablecards.BackRowCard;
+import org.poo.cards.tablecards.special.Tank;
 import org.poo.fileio.CardInput;
 
 import java.util.ArrayList;
@@ -17,34 +23,46 @@ public class Player {
     public Player(CardInput hero, ArrayList<CardInput> deck, int playerId) {
         String heroName = hero.getName();
         switch (heroName) {
-            case "Lord Royce": this.hero = new LordRoyce(hero, playerId);
-            break;
-            case "Empress Thorina": this.hero = new EmpressThorina(hero, playerId);
-            break;
-            case "King Mudface": this.hero = new KingMudface(hero, playerId);
-            break;
-            case "General Kocioraw": this.hero = new GeneralKocioraw(hero, playerId);
-            break;
-            default: System.err.println("Invalid hero name: " + heroName);
+            case "Lord Royce":
+                this.hero = new LordRoyce(hero, playerId);
+                break;
+            case "Empress Thorina":
+                this.hero = new EmpressThorina(hero, playerId);
+                break;
+            case "King Mudface":
+                this.hero = new KingMudface(hero, playerId);
+                break;
+            case "General Kocioraw":
+                this.hero = new GeneralKocioraw(hero, playerId);
+                break;
+            default:
+                System.err.println("Invalid hero name: " + heroName);
         }
 
         this.deck = new ArrayList<Card>();
         for (CardInput card : deck) {
             String name = card.getName();
             switch (name) {
-                case "The Ripper": this.deck.add(new TheRipper(card, playerId));
-                break;
-                case "Miraj": this.deck.add(new Miraj(card, playerId));
-                break;
-                case "The Cursed One": this.deck.add(new TheCursedOne(card, playerId));
-                break;
-                case "Disciple": this.deck.add(new Disciple(card, playerId));
-                break;
-                case "Goliath", "Warden": this.deck.add(new Tank(card, playerId));
-                break;
-                case "Sentinel", "Berserker": this.deck.add(new BackRowCard(card, playerId));
-                break;
-                default: System.err.println("Invalid card name: " + name);
+                case "The Ripper":
+                    this.deck.add(new TheRipper(card, playerId));
+                    break;
+                case "Miraj":
+                    this.deck.add(new Miraj(card, playerId));
+                    break;
+                case "The Cursed One":
+                    this.deck.add(new TheCursedOne(card, playerId));
+                    break;
+                case "Disciple":
+                    this.deck.add(new Disciple(card, playerId));
+                    break;
+                case "Goliath", "Warden":
+                    this.deck.add(new Tank(card, playerId));
+                    break;
+                case "Sentinel", "Berserker":
+                    this.deck.add(new BackRowCard(card, playerId));
+                    break;
+                default:
+                    System.err.println("Invalid card name: " + name);
             }
         }
 
@@ -97,4 +115,5 @@ public class Player {
     public int getPlayerId() {
         return playerId;
     }
+
 }

@@ -1,4 +1,4 @@
-package org.poo.cards;
+package org.poo.cards.tablecards;
 
 import org.poo.fileio.CardInput;
 import org.poo.main.GamesSetup;
