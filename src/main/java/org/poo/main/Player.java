@@ -65,7 +65,7 @@ public class Player {
         return deck;
     }
 
-    public Card getHerro() {
+    public Card getHero() {
         return hero;
     }
 

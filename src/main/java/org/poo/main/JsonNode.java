@@ -150,36 +150,21 @@ public final class JsonNode {
         return cardUsesAbility;
     }
 
+    public static ObjectNode writeUseAttackHero(ActionsInput action, String res) {
+        if (res == null)
+            return null;
 
+        ObjectNode useAttackHeroNode = mapper.createObjectNode();
 
+        if (res.equals(Errors.playerOneWon) || res.equals(Errors.playerTwoWon)) {
+            useAttackHeroNode.put("gameEnded", res);
+        } else {
+            useAttackHeroNode.put("command", action.getCommand());
+            useAttackHeroNode.set("cardAttacker", writeCoordinates(action.getCardAttacker()));
+            useAttackHeroNode.put("error", res);
+        }
 
-
-//
-
-//
-//
-//
-//
-//
-//
-
-//
-//
-//    public static ObjectNode writeUseAttackHero(ActionsInput action, String error, String result) {
-//        if (result == null && error == null)
-//            return null;
-//
-//        ObjectNode useAttackHeroNode = mapper.createObjectNode();
-//        if (result != null)
-//            useAttackHeroNode.put("gameEnded", result);
-//
-//        if (error != null) {
-//            useAttackHeroNode.put("command", action.getCommand());
-//            useAttackHeroNode.set("cardAttacker", writeCoordinates(action.getCardAttacker()));
-//            useAttackHeroNode.put("error", error);
-//        }
-//
-//        return useAttackHeroNode;
-//    }
+        return useAttackHeroNode;
+    }
 
 }

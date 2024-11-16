@@ -19,7 +19,15 @@ public class Errors {
     public static final String noCardAtGivenPos = "No card available at that position.";
     public static final String rowNotEnemy = "Selected row does not belong to the enemy.";
     public static final String rowNotCurPlayer = "Selected row does not belong to the current player.";
+    public static final String playerOneWon = "Player one killed the enemy hero.";
+    public static final String playerTwoWon = "Player two killed the enemy hero.";
 
+    public static String gameEnded(int currentPlayerId) {
+        if (currentPlayerId == GamesSetup.playerOneIdx)
+            return playerOneWon;
+
+        return playerTwoWon;
+    }
 
     public static String
     placeCardError(Card card, GameTable table, int currentMana) {

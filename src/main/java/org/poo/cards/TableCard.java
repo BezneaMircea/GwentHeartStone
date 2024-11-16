@@ -36,11 +36,11 @@ public class TableCard extends Card {
 
 
     private String
-    getAttackError(GameTable table, int currentPlayerId, Card attackedCard) {
-        if (getBelongsTo() != currentPlayerId)
+    getAttackCardOutput(GameTable table, int curPlayerId, Card attackedCard) {
+        if (getBelongsTo() != curPlayerId)
             return Errors.attackerDontBelongCur;
 
-        if (attackedCard.getBelongsTo() == currentPlayerId)
+        if (attackedCard.getBelongsTo() == curPlayerId)
             return Errors.attackedDontBelongEnnemy;
 
         if (getHasAttacked())
@@ -49,7 +49,25 @@ public class TableCard extends Card {
         if (isFrozen())
             return Errors.isFrozen;
 
-        int enemyIdx = Errors.getOtherPlayerIdx(currentPlayerId);
+        int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
+        if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
+            return Errors.notTank;
+
+        return Errors.noError;
+    }
+
+    private String
+    getAttackHeroOutput(GameTable table, int curPlayerId, Card attackedCard) {
+        if (attackedCard.getBelongsTo() == curPlayerId)
+            return Errors.attackedDontBelongEnnemy;
+
+        if (isFrozen())
+            return Errors.isFrozen;
+
+        if (getHasAttacked())
+            return Errors.cardAlreadyAttacked;
+
+        int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
             return Errors.notTank;
 
@@ -57,16 +75,25 @@ public class TableCard extends Card {
     }
 
     @Override
-    public String attackCard(GameTable table, int currentPlayerId, Card attackedCard) {
-        String error = getAttackError(table, currentPlayerId, attackedCard);
+    public String
+    attackCard(GameTable table, int curPlayerId, Card attackedCard) {
+        String output;
+        if (attackedCard.isHero()) {
+            output = getAttackHeroOutput(table, curPlayerId, attackedCard);
+        } else {
+            output = getAttackCardOutput(table, curPlayerId, attackedCard);
+        }
 
-        if (error != null)
-            return error;
+        if (output != null)
+            return output;
 
         attackedCard.setHealth(attackedCard.getHealth() - attackDamage);
         setHasAttacked(true);
         if (attackedCard.getHealth() <= 0) {
             attackedCard.setHealth(0);
+            if (attackedCard.isHero())
+                return Errors.gameEnded(curPlayerId);
+
             table.removeCard(attackedCard);
         }
 
@@ -75,12 +102,12 @@ public class TableCard extends Card {
 
 
 
-    protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
+    protected String useAbility(Card attackedCard, GameTable table, int curPlayerId) {
         return null;
     }
 
     @Override
-    public String useCardAbility(Card attackedCard, GameTable table, int currentPlayer) {
+    public String useCardAbility(Card attackedCard, GameTable table, int curPlayerId) {
         if (attackedCard == null)
             return null;
 
@@ -90,7 +117,7 @@ public class TableCard extends Card {
         if (getHasAttacked())
             return Errors.cardAlreadyAttacked;
 
-        return useAbility(attackedCard, table, currentPlayer);
+        return useAbility(attackedCard, table, curPlayerId);
     }
 
 

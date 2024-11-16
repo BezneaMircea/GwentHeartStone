@@ -52,18 +52,12 @@ public class Game {
     }
 
     private Player getInstanceOfWaitingPlayer() {
-        if (currentPlayer == 1)
+        if (currentPlayer == GamesSetup.playerOneIdx)
             return playerTwo;
 
         return playerOne;
     }
 
-    private String gameEnded() {
-        if (currentPlayer == 1)
-            return "Player one killed the enemy hero.";
-
-        return "Player two killed the enemy hero.";
-    }
 
     private void addMana() {
         playerOne.setMana(playerOne.getMana() + manaGiven);
@@ -101,9 +95,9 @@ public class Game {
 
     private ObjectNode getPlayerHero(ActionsInput action) {
         if (action.getPlayerIdx() == GamesSetup.playerOneIdx)
-            return JsonNode.writePlayerHero(action, playerOne.getHerro());
+            return JsonNode.writePlayerHero(action, playerOne.getHero());
         else
-            return JsonNode.writePlayerHero(action, playerTwo.getHerro());
+            return JsonNode.writePlayerHero(action, playerTwo.getHero());
     }
 
     private ObjectNode getPlayerTurn(ActionsInput action) {
@@ -168,33 +162,20 @@ public class Game {
         String error = attackerCard.useCardAbility(attackedCard, table, currentPlayer);
         return JsonNode.writeCardUsesAbility(action, error);
     }
-//
-//
-//
 
-//
-//
-//
-//
-//
-//
-//    private ObjectNode useAttackHero(ActionsInput action) {
-//        Coordinates attackerCord = action.getCardAttacker();
-//
-//        String error = Errors.useAttackHero(attackerCord, table, currentPlayer);
-//        String result = null;
-//        if (error == null) {
-//            Player player = getInstanceOfWaitingPlayer();
-//            CardInput attackerCard = table.getElement(attackerCord);
-//            attackerCard.attackCard(player.getHerro());
-//            attackerCard.setHasAttacked(true);
-//            if (player.getHerro().getHealth() <= 0)
-//                result = gameEnded();
-//        }
-//
-//        return JsonNode.writeUseAttackHero(action, error, result);
-//    }
 
+    private ObjectNode useAttackHero(ActionsInput action) {
+        Coordinates attackerCord = action.getCardAttacker();
+        Card attackerCard = table.getElement(attackerCord);
+
+        if (attackerCard == null)
+            return null;
+
+        Player player = getInstanceOfWaitingPlayer();
+        String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
+
+        return JsonNode.writeUseAttackHero(action, res);
+    }
 //    private ObjectNode useHeroAbility(ActionsInput action) {
 //        int affectedRow = action.getAffectedRow();
 //        Player player = getInstanceOfCurrentPlayer();
@@ -215,7 +196,7 @@ public class Game {
             case "getCardAtPosition" -> getCardAtPosition(action);
             case "cardUsesAttack" -> cardUsesAttack(action);
             case "cardUsesAbility" -> cardUsesAbility(action);
-//            case "useAttackHero" -> useAttackHero(action);
+            case "useAttackHero" -> useAttackHero(action);
             ///case "useHeroAbility" -> useHeroAbility(action);
             default -> null;
         };
