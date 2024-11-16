@@ -153,7 +153,7 @@ public class Game {
 
         String error = attackerCard.attackCard(table, currentPlayer, attackedCard);
 
-        return JsonNode.writeCardUsesAttack(action, error, attackedCard);
+        return JsonNode.writeCardUsesAttack(action, error);
     }
 
     private ObjectNode cardUsesAbility(ActionsInput action) {

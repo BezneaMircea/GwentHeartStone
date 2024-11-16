@@ -15,12 +15,17 @@ public final class TheCursedOne extends BackRowCard {
         if (attackedCard.getBelongsTo() == currentPlayer)
             return Errors.attackedDontBelongEnnemy;
 
+        if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
+                && !attackedCard.isTank())
+            return Errors.notTank;
+
         int cardAttackDamage = attackedCard.getAttackDamage();
         attackedCard.setAttackDamage(attackedCard.getHealth());
         attackedCard.setHealth(cardAttackDamage);
 
         if(attackedCard.getHealth() == 0)
             table.removeCard(attackedCard);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

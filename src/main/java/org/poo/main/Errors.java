@@ -10,7 +10,7 @@ public class Errors {
     public static final String cardAlreadyAttacked = "Attacker card has already attacked this turn.";
     public static final String heroAlreadyAttacked = "Hero has already attacked this turn.";
     public static final String attackedDontBelongCur = "Attacked card does not belong to the current player.";
-    public static final String attackedDontBelongEnnemy = "Attacked card does not belong to the ennemy.";
+    public static final String attackedDontBelongEnnemy = "Attacked card does not belong to the enemy.";
     public static final String attackerDontBelongCur = "Attacker card does not belong to the current player.";
     public static final String notTank = "Attacked card is not of type 'Tank'.";
     public static final String notEnoughManaCard = "Not enough mana to place card on table.";

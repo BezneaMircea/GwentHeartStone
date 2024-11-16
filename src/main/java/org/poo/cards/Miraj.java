@@ -15,9 +15,14 @@ public final class Miraj extends FrontRowCard {
         if (attackedCard.getBelongsTo() == currentPlayer)
             return Errors.attackedDontBelongEnnemy;
 
+        if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
+                && !attackedCard.isTank())
+            return Errors.notTank;
+
         int aux = getHealth();
         setHealth(attackedCard.getHealth());
         attackedCard.setHealth(aux);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

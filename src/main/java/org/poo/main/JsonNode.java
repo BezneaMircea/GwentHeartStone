@@ -123,15 +123,15 @@ public final class JsonNode {
         return coordinatesNode;
     }
 
-    public static ObjectNode writeCardUsesAttack(ActionsInput action, String error, Card a) {
+    public static ObjectNode writeCardUsesAttack(ActionsInput action, String error) {
         if (error == null)
             return null;
 
         ObjectNode cardAttacks = mapper.createObjectNode();
         cardAttacks.set("cardAttacker", writeCoordinates(action.getCardAttacker()));
         cardAttacks.set("cardAttacked", writeCoordinates(action.getCardAttacked()));
+        cardAttacks.put("command", action.getCommand());
         cardAttacks.put("error", error);
-        cardAttacks.put("name", a.getName());
 
 
         return cardAttacks;

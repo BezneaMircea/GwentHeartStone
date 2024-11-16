@@ -15,11 +15,8 @@ public final class Disciple extends BackRowCard {
         if (attackedCard.getBelongsTo() != currentPlayer)
             return Errors.attackedDontBelongCur;
 
-        if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
-            && !attackedCard.isTank())
-            return Errors.notTank;
-
         attackedCard.setHealth(attackedCard.getHealth() + 2);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

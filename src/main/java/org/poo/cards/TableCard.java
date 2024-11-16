@@ -64,8 +64,11 @@ public class TableCard extends Card {
             return error;
 
         attackedCard.setHealth(attackedCard.getHealth() - attackDamage);
-        if (attackedCard.getHealth() < 0)
+        setHasAttacked(true);
+        if (attackedCard.getHealth() <= 0) {
             attackedCard.setHealth(0);
+            table.removeCard(attackedCard);
+        }
 
         return Errors.noError;
     }

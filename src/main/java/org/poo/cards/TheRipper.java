@@ -15,9 +15,15 @@ public final class TheRipper extends FrontRowCard {
         if (attackedCard.getBelongsTo() == currentPlayer)
             return Errors.attackedDontBelongEnnemy;
 
+        if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
+                && !attackedCard.isTank())
+            return Errors.notTank;
+
+
         attackedCard.setAttackDamage(attackedCard.getAttackDamage() - 2);
         if (attackedCard.getAttackDamage() < 0)
             attackedCard.setAttackDamage(0);
+        setHasAttacked(true);
 
         return Errors.noError;
     }

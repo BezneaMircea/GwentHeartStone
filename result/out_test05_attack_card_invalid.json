@@ -24,8 +24,19 @@
     "x" : 0,
     "y" : 0
   },
-  "error" : "Attacked card is not of type 'Tank'.",
-  "name" : "Sentinel"
+  "command" : "cardUsesAttack",
+  "error" : "Attacked card is not of type 'Tank'."
+}, {
+  "cardAttacker" : {
+    "x" : 2,
+    "y" : 0
+  },
+  "cardAttacked" : {
+    "x" : 1,
+    "y" : 0
+  },
+  "command" : "cardUsesAttack",
+  "error" : "Attacker card has already attacked this turn."
 }, {
   "cardAttacker" : {
     "x" : 3,
@@ -35,8 +46,8 @@
     "x" : 3,
     "y" : 0
   },
-  "error" : "Attacked card does not belong to the ennemy.",
-  "name" : "Sentinel"
+  "command" : "cardUsesAttack",
+  "error" : "Attacked card does not belong to the enemy."
 }, {
   "command" : "getCardsInHand",
   "playerIdx" : 2,
@@ -69,7 +80,7 @@
   "output" : {
     "mana" : 3,
     "attackDamage" : 2,
-    "health" : 0,
+    "health" : 2,
     "description" : "Standard card: A warrior who is never afraid of battle, no matter the costs",
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath"
@@ -108,7 +119,7 @@
   } ], [ {
     "mana" : 3,
     "attackDamage" : 2,
-    "health" : 0,
+    "health" : 2,
     "description" : "Standard card: A warrior who is never afraid of battle, no matter the costs",
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath"
