@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.fileio.*;
 
-public class GamesSetup {
+
+/**
+ * Class that contains general attributes about a game/a series of games.
+ * It handles the given input of a series of games and for each of the
+ * games it creates a new Game class instance and starts the game
+ * @see Game
+ */
+public final class GamesSetup {
     public static final int playerOneIdx = 1;
     public static final int playerTwoIdx = 2;
     public static final int initialMana = 1;
@@ -19,6 +26,13 @@ public class GamesSetup {
     private final ArrayList<GameInput> games;
     private final ArrayNode output;
 
+    /**
+     * Constructor used to set up the generalities about the current
+     * series of games.
+     * @param input The entire input of the series of games
+     * @param output ArrayNode that will help us return the output after
+     *               performing all the actions withing the games
+     */
     public GamesSetup(Input input, ArrayNode output) {
         playerOneDecks = input.getPlayerOneDecks();
         playerTwoDecks = input.getPlayerTwoDecks();
@@ -27,6 +41,22 @@ public class GamesSetup {
         totalGamesPlayed = 0;
         playerOneWins = 0;
         playerTwoWins = 0;
+    }
+
+    /**
+     * Method used in order to play all the games
+     */
+    public void playTheGames() {
+        for (GameInput gameInput : games) {
+            Game newGame = currentGameSetup(gameInput);
+            playTheGame(newGame, gameInput.getActions());
+        }
+    }
+
+
+
+    private void playTheGame(Game game, ArrayList<ActionsInput> actions) {
+        game.performAllActions(actions, this.output);
     }
 
     private long getSeed(StartGameInput startGameInput) {
@@ -74,16 +104,6 @@ public class GamesSetup {
         return new Game(playerOne, playerTwo, seed, startingPlayer);
     }
 
-    private void playTheGame(Game game, ArrayList<ActionsInput> actions) {
-        game.performAllActions(actions, this.output);
-    }
-
-    public void playTheGames() {
-        for (GameInput gameInput : games) {
-            Game newGame = currentGameSetup(gameInput);
-            playTheGame(newGame, gameInput.getActions());
-        }
-    }
 
     public ArrayNode getOutput() {
         return output;

@@ -9,7 +9,13 @@ import org.poo.main.Game;
 import org.poo.main.GameTable;
 import org.poo.main.JsonNode;
 
-
+/**
+ * Class used to represent cards that can be placed on the gameTable.
+ * Instances of this class have some extra attributes such as attackDamage,
+ * frozen (if the card is frozen or not) and rowToPlace. This class also has
+ * some specific errors that can appear when trying to perform methods on
+ * a table card.
+ */
 public class TableCard extends Card {
     private int attackDamage;
     private boolean frozen;
@@ -31,6 +37,7 @@ public class TableCard extends Card {
         notTank = "Attacked card is not of type 'Tank'.";
     }
 
+
     public TableCard(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
         attackDamage = cardInput.getAttackDamage();
@@ -38,6 +45,9 @@ public class TableCard extends Card {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     protected String
     useAbility(Card attackedCard, GameTable table, int curPlayerId) {
         return null;

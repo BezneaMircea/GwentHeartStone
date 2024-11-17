@@ -13,6 +13,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Class that is used in order to handle a single game's actions and
+ * some commands regarding statistics about the current game series.
+ */
 public class Game {
     private final Player playerOne;
     private final Player playerTwo;
@@ -21,7 +25,7 @@ public class Game {
     private int currentPlayer;
     private final int startingPlayer;
     private final GameTable table;
-    ;
+
     public static final String playerOneWon;
     public static final String playerTwoWon;
 
@@ -30,12 +34,19 @@ public class Game {
         playerTwoWon = "Player two killed the enemy hero.";
     }
 
-    public Game(Player playerOne, Player playerTwo, long seed, int currentPlayer) {
+    /**
+     * Constructor used to create a single game.
+     * @param playerOne Player one of the game
+     * @param playerTwo Player two of the game
+     * @param seed seed of the current game
+     * @param startingPlayer the starting player of the game
+     */
+    public Game(Player playerOne, Player playerTwo, long seed, int startingPlayer) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
-        this.currentPlayer = currentPlayer;
-        startingPlayer = currentPlayer;
+        this.currentPlayer = startingPlayer;
+        this.startingPlayer = startingPlayer;
         table = new GameTable();
         manaGiven = GamesSetup.initialMana;
 
@@ -50,11 +61,55 @@ public class Game {
         GamesSetup.totalGamesPlayed++;
     }
 
+    /**
+     * Returns a string regarding the message at the end of a game.
+     * @param currentPlayerId the id of the player that won
+     * @return a string regarding the player that won the game
+     */
     public static String gameEnded(int currentPlayerId) {
         if (currentPlayerId == GamesSetup.playerOneIdx)
             return playerOneWon;
 
         return playerTwoWon;
+    }
+
+    /**
+     * Method used in order to perform all the actions of the current game
+     * @param actions all actions of the current game
+     * @param output returned output of the current game
+     */
+    public void performAllActions(ArrayList<ActionsInput> actions, ArrayNode output) {
+        newRound();
+        for (ActionsInput action : actions) {
+            ObjectNode actionOutput = performAction(action);
+            if (actionOutput != null)
+                output.add(actionOutput);
+        }
+    }
+
+    private ObjectNode performAction(ActionsInput action) {
+        String command = action.getCommand();
+        return switch (command) {
+            case "getPlayerDeck" -> getPlayerDeck(action);
+            case "getPlayerHero" -> getPlayerHero(action);
+            case "getPlayerTurn" -> getPlayerTurn(action);
+            case "getCardsInHand" -> getCardsInHand(action);
+            case "getPlayerMana" -> getPlayerMana(action);
+            case "getCardsOnTable" -> getCardsOnTable(action);
+            case "getCardAtPosition" -> getCardAtPosition(action);
+            case "getFrozenCardsOnTable" -> getFrozenCardsOnTable(action);
+            case "cardUsesAttack" -> cardUsesAttack(action);
+            case "cardUsesAbility" -> cardUsesAbility(action);
+            case "useAttackHero" -> useAttackHero(action);
+            case "useHeroAbility" -> useHeroAbility(action);
+            case "placeCard" -> placeCard(action);
+            case "endPlayerTurn" -> endPlayerTurn();
+            case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
+            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerOneWins);
+            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerTwoWins);
+            default -> null;
+        };
+
     }
 
 
@@ -234,37 +289,4 @@ public class Game {
         return JsonNode.writeTotalGamesPlayed(action, gamesPlayed);
     }
 
-    private ObjectNode performAction(ActionsInput action) {
-        String command = action.getCommand();
-        return switch (command) {
-            case "getPlayerDeck" -> getPlayerDeck(action);
-            case "getPlayerHero" -> getPlayerHero(action);
-            case "getPlayerTurn" -> getPlayerTurn(action);
-            case "getCardsInHand" -> getCardsInHand(action);
-            case "getPlayerMana" -> getPlayerMana(action);
-            case "getCardsOnTable" -> getCardsOnTable(action);
-            case "getCardAtPosition" -> getCardAtPosition(action);
-            case "getFrozenCardsOnTable" -> getFrozenCardsOnTable(action);
-            case "cardUsesAttack" -> cardUsesAttack(action);
-            case "cardUsesAbility" -> cardUsesAbility(action);
-            case "useAttackHero" -> useAttackHero(action);
-            case "useHeroAbility" -> useHeroAbility(action);
-            case "placeCard" -> placeCard(action);
-            case "endPlayerTurn" -> endPlayerTurn();
-            case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
-            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerOneWins);
-            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerTwoWins);
-            default -> null;
-        };
-
-    }
-
-    public void performAllActions(ArrayList<ActionsInput> actions, ArrayNode output) {
-        newRound();
-        for (ActionsInput action : actions) {
-            ObjectNode actionOutput = performAction(action);
-            if (actionOutput != null)
-                output.add(actionOutput);
-        }
-    }
 }

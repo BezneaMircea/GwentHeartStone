@@ -6,7 +6,12 @@ import org.poo.fileio.CardInput;
 import org.poo.main.GameTable;
 import org.poo.main.Player;
 
-
+/**
+ * Class used to represent the generalities of a card.
+ * This is the first class within the cards hierarchy
+ * @see org.poo.cards.heroes.Hero
+ * @see org.poo.cards.tablecards.TableCard
+ */
 public class Card {
     private int mana;
     private int health;
@@ -16,6 +21,11 @@ public class Card {
     private boolean hasAttacked;
     private final int belongsTo;
 
+    /**
+     * Constructor used to set the general card values
+     * @param cardInput the card data
+     * @param belongsTo id of the player that the card belongs to
+     */
     public Card(CardInput cardInput, int belongsTo) {
         mana = cardInput.getMana();
         health = cardInput.getHealth();
@@ -26,7 +36,14 @@ public class Card {
         this.belongsTo = belongsTo;
     }
 
-
+    /**
+     * Method used to attack a given card that is placed on the table
+     * @param table
+     * @param currentPlayerId the player
+     * @param attackedCard
+     * @return null if the action succeeded or an appropriate
+     * error in case it fails
+     */
     public String attackCard(GameTable table, int currentPlayerId, Card attackedCard) {
         return null;
     }

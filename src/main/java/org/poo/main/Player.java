@@ -13,6 +13,10 @@ import org.poo.fileio.CardInput;
 import java.util.ArrayList;
 
 
+/**
+ * Class used to describe a player of the current game and the actions
+ * it can perform.
+ */
 public final class Player {
     private final ArrayList<Card> deck;
     private Card hero;
@@ -20,6 +24,15 @@ public final class Player {
     private int mana;
     private final int playerId;
 
+    /**
+     * Constructor used to give the player it s attributes.
+     * In this constructor we also check for the name of the cards
+     * within the player's deck in order to declare them with the proper
+     * dynamic type
+     * @param hero hero of the current player
+     * @param deck deck of the current player
+     * @param playerId id of the current player
+     */
     public Player(CardInput hero, ArrayList<CardInput> deck, int playerId) {
         String heroName = hero.getName();
         switch (heroName) {
@@ -72,6 +85,9 @@ public final class Player {
     }
 
 
+    /**
+     * Method used to draw a card from the players deck and put it in his hand
+     */
     public void drawCard() {
         if (deck.isEmpty())
             return;
@@ -79,6 +95,14 @@ public final class Player {
         hand.add(deck.remove(0));
     }
 
+
+    /**
+     * Method used to place a card on the table
+     * @param table the game table where the card will be placed
+     * @param handIdx the index of the card to be placed from the player's hand
+     * @return an error string if an error occurs or
+     * noError(currently null) if no error was found
+     */
     public String placeCard(GameTable table, int handIdx) {
         Card card = hand.get(handIdx);
 
@@ -90,6 +114,10 @@ public final class Player {
         mana -= card.getMana();
         return Errors.noError;
     }
+
+
+
+
 
     public ArrayList<Card> getDeck() {
         return deck;

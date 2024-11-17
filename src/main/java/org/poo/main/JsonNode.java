@@ -8,9 +8,18 @@ import org.poo.fileio.Coordinates;
 import org.poo.cards.Card;
 import java.util.ArrayList;
 
+/**
+ * Helper class used to write actions
+ * input + (output)/(output errors) in JSON format
+ */
 public final class JsonNode {
     public static final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Method used to write a color list in JSON format
+     * @param colors the color list
+     * @return and ArrayNode representing the JSON format of the color's list
+     */
     public static ArrayNode writeColors(ArrayList<String> colors) {
         ArrayNode colorArray = mapper.createArrayNode();
         for (String color : colors)
@@ -32,6 +41,14 @@ public final class JsonNode {
         return deckNode;
     }
 
+    /**
+     * Method used to write in JSON format the input and output
+     * of the getPlayerDeck command
+     * @param action the current action
+     * @param deck the deck that is to be written
+     * @return the JSON format of the given action + deck in the form
+     * of an ObjectNode
+     */
     public static ObjectNode
     writePlayerDeck(ActionsInput action, ArrayList<Card> deck) {
         ObjectNode deckNode = mapper.createObjectNode();
@@ -42,25 +59,49 @@ public final class JsonNode {
         return deckNode;
     }
 
+    /**
+     * Method used to write in JSON format the input and output
+     * of the getPlayerHero command
+     * @param action the current action
+     * @param hero hero that is to be written
+     * @return the JSON format in the form of an ObjectNode
+     */
     public static ObjectNode
-    writePlayerHero(ActionsInput actions, Card hero) {
+    writePlayerHero(ActionsInput action, Card hero) {
         ObjectNode heroNode = mapper.createObjectNode();
-        heroNode.put("command", actions.getCommand());
-        heroNode.put("playerIdx", actions.getPlayerIdx());
+        heroNode.put("command", action.getCommand());
+        heroNode.put("playerIdx", action.getPlayerIdx());
         heroNode.set("output", writeCard(hero));
 
         return heroNode;
     }
 
+
+    /**
+     * Method used to write the input and output ot the getPlayerTurn command
+     * @param action the current action
+     * @param currentPlayer the current player at turn given in the form of id
+     *                      (currently 1 and 2)
+     * @return the JSON format of the given command input and output
+     */
     public static ObjectNode
-    writePlayerTurn(ActionsInput actions, int currentPlayer) {
+    writePlayerTurn(ActionsInput action, int currentPlayer) {
         ObjectNode turnNode = mapper.createObjectNode();
-        turnNode.put("command", actions.getCommand());
+        turnNode.put("command", action.getCommand());
         turnNode.put("output", currentPlayer);
 
         return turnNode;
     }
 
+
+    /**
+     * Method used to write in JSON format the input and output of
+     * the placeCard command in case an error occurred
+     * @param action the current action
+     * @param error the output error or null if no error occurred
+     * @return the JSON format of the given action input and output error
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writePlaceCard(ActionsInput action, String error) {
         if (error == null)
@@ -74,25 +115,50 @@ public final class JsonNode {
         return placeCardNode;
     }
 
+
+    /**
+     * Method used to write the input and output of the getCardsInHand command
+     * in JSON format
+     * @param action the current action
+     * @param hand list of cards representing the cards in one of the players
+     *             hand
+     * @return the JSON format of the input and output of the given command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
-    writeCardsInHand(ActionsInput actions, ArrayList<Card> hand) {
-        return writePlayerDeck(actions, hand);
+    writeCardsInHand(ActionsInput action, ArrayList<Card> hand) {
+        return writePlayerDeck(action, hand);
     }
 
+    /**
+     * Method used to write the input and output of the getPlayerMana
+     * command in JSON format.
+     * @param action the current action
+     * @param mana mana of the player
+     * @return the JSON format of the input and output of the given command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
-    writePlayerMana(ActionsInput actionsInput, int mana) {
+    writePlayerMana(ActionsInput action, int mana) {
         ObjectNode playerManaNode = mapper.createObjectNode();
-        playerManaNode.put("command", actionsInput.getCommand());
-        playerManaNode.put("playerIdx", actionsInput.getPlayerIdx());
+        playerManaNode.put("command", action.getCommand());
+        playerManaNode.put("playerIdx", action.getPlayerIdx());
         playerManaNode.put("output", mana);
 
         return playerManaNode;
     }
 
+    /**
+     * Method used to write the input and output of the getCardsOnTable command
+     * @param action the current action
+     * @param table the table that contains the cards
+     * @return the Json format of the input and output of the given command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
-    writeCardsOnTable(ActionsInput actions, GameTable table) {
+    writeCardsOnTable(ActionsInput action, GameTable table) {
         ObjectNode tableNode = mapper.createObjectNode();
-        tableNode.put("command", actions.getCommand());
+        tableNode.put("command", action.getCommand());
 
         ArrayNode cardsOnTableNode = mapper.createArrayNode();
         for (ArrayList<Card> row : table.getTable())
@@ -103,16 +169,16 @@ public final class JsonNode {
     }
 
 
-
-    private static ObjectNode
-    writeCoordinates(Coordinates cord) {
-        ObjectNode coordinatesNode = mapper.createObjectNode();
-        coordinatesNode.put("x", cord.getX());
-        coordinatesNode.put("y", cord.getY());
-
-        return coordinatesNode;
-    }
-
+    /**
+     * Method used to write the input and output of the getCardAtPosition
+     * command in JSON format. The output is the card if no error occurred
+     * or the error otherwise
+     * @param action the current action
+     * @param card the card at the given position (null if there was no card)
+     * @param error the output error or null if no error occurred
+     * @return the JSON format of the given action input and output error
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writeCardAtPosition(ActionsInput action, Card card, String error) {
         ObjectNode positionNode = mapper.createObjectNode();
@@ -128,6 +194,25 @@ public final class JsonNode {
         return positionNode;
     }
 
+
+    private static ObjectNode
+    writeCoordinates(Coordinates cord) {
+        ObjectNode coordinatesNode = mapper.createObjectNode();
+        coordinatesNode.put("x", cord.getX());
+        coordinatesNode.put("y", cord.getY());
+
+        return coordinatesNode;
+    }
+
+
+    /**
+     * Method used to write the input and output error of the
+     * cardUsesAttack command.
+     * @param action the current action
+     * @param error the output error or null if no error occurred
+     * @return the JSON format of the given action input and output error
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writeCardUsesAttack(ActionsInput action, String error) {
         if (error == null)
@@ -139,10 +224,18 @@ public final class JsonNode {
         cardAttacks.put("command", action.getCommand());
         cardAttacks.put("error", error);
 
-
         return cardAttacks;
     }
 
+
+    /**
+     * Method used to write in JSON format the input and output error
+     * of a given command
+     * @param action the current action
+     * @param error the output error or null if no error occurred
+     * @return the JSON format of the given action input and output error
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writeCardUsesAbility(ActionsInput action, String error) {
         if (error == null)
@@ -157,6 +250,13 @@ public final class JsonNode {
         return cardUsesAbility;
     }
 
+    /**
+     * Method used to write the input and output of the useAttackHero command
+     * @param action the current action
+     * @param res result of the action (either an error or gameEnded)
+     * @return the JSON format of the given action input and output
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writeUseAttackHero(ActionsInput action, String res) {
         if (res == null)
@@ -175,6 +275,13 @@ public final class JsonNode {
         return useAttackHeroNode;
     }
 
+    /**
+     * Method used to write the input and output error of the given command
+     * @param action the current action
+     * @param error the output error or null if no error occurred
+     * @return the JSON format of the given action input and output error
+     * in the form of an ObjectNode or null if no error occurred
+     */
     public static ObjectNode
     writeUseHeroAbility(ActionsInput action, String error) {
         if (error == null)
@@ -189,6 +296,14 @@ public final class JsonNode {
         return heroAbilityNode;
     }
 
+    /**
+     * Method used to write the input and output of the
+     * getFrozenCardsOnTable command
+     * @param action the action input
+     * @param table the GameTable where we will look for the frozen cards
+     * @return the JSON format of the input and output of the given command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
     writeFrozenCardsOnTable(ActionsInput action, GameTable table) {
         ObjectNode frozenCardsNode = mapper.createObjectNode();
@@ -205,6 +320,15 @@ public final class JsonNode {
         return frozenCardsNode;
     }
 
+
+    /**
+     * Method used to write the input and output of the statistics command
+     * getTotalGamesPlayed
+     * @param action the current action
+     * @param totalGamesPlayed the total nr of games played by the two players
+     * @return the JSON format of the input and output of the current command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
     writeTotalGamesPlayed(ActionsInput action, int totalGamesPlayed) {
         ObjectNode totalGamesPlayedNode = mapper.createObjectNode();
@@ -215,6 +339,15 @@ public final class JsonNode {
         return totalGamesPlayedNode;
     }
 
+
+    /**
+     * Method used to write the input and output of the statistics command
+     * getPlayerOneWins or getPlayerTwoWins.
+     * @param action the current action
+     * @param playerWins the total of the wanted player wins
+     * @return the JSON format of the input and output of the current command
+     * in the form of an ObjectNode
+     */
     public static ObjectNode
     writePlayerWins(ActionsInput action, int playerWins) {
         ObjectNode playerWinsNode = mapper.createObjectNode();
