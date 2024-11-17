@@ -38,6 +38,14 @@ public class TableCard extends Card {
     }
 
 
+    /**
+     * Constructor for the table card, first calls the constructor of the
+     * super class with the same params (cardInput and belongsTo).
+     * In addition to the super class constructor, this time the
+     * frozen attribute appears and is set to the default value (false)
+     * @param cardInput input of the card
+     * @param belongsTo id of the player that card belongs to
+     */
     public TableCard(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
         attackDamage = cardInput.getAttackDamage();
@@ -46,13 +54,21 @@ public class TableCard extends Card {
 
 
     /**
-     * {@inheritDoc}
+     * Method used to perform a specific TableCard special ability
+     * (ex: Disciple, Miraj)
+     * @param attackedCard the card that is attacked
+     * @param table the current GameTable
+     * @param curPlayerId the id of the player that performs the action
+     * @return null if no error occurred or an appropriate one otherwise
      */
     protected String
     useAbility(Card attackedCard, GameTable table, int curPlayerId) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String
     useCardAbility(Card attackedCard, GameTable table, int curPlayerId) {
@@ -68,6 +84,9 @@ public class TableCard extends Card {
         return useAbility(attackedCard, table, curPlayerId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String
     attackCard(GameTable table, int curPlayerId, Card attackedCard) {
@@ -136,6 +155,9 @@ public class TableCard extends Card {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ObjectNode writeCard() {
         ObjectNode minionNode = JsonNode.mapper.createObjectNode();
@@ -152,6 +174,7 @@ public class TableCard extends Card {
     }
 
 
+
     @Override
     public int getAttackDamage() {
         return attackDamage;
@@ -162,16 +185,25 @@ public class TableCard extends Card {
         this.attackDamage = attackDamage;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isFrozen() {
         return frozen;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFrozen(boolean frozen) {
         this.frozen = frozen;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRowToPlace() {
         return rowToPlace;

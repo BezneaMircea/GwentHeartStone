@@ -6,12 +6,22 @@ import org.poo.main.Errors;
 import org.poo.fileio.CardInput;
 import org.poo.main.GameTable;
 
-
+/**
+ * Class used to represent the card "The Ripper"
+ */
 public final class TheRipper extends FrontRowCard {
+    /**
+     * Constructor used to create "The Ripper" card, just calls
+     * the constructor from the super class.
+     * @see FrontRowCard
+     */
     public TheRipper(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
         if (attackedCard.getBelongsTo() == currentPlayer)

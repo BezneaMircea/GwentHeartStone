@@ -9,6 +9,9 @@ import org.poo.main.JsonNode;
 import org.poo.main.Player;
 
 
+/**
+ * Class used to represent a "Hero" card and the constants of a hero.
+ */
 public class Hero extends Card {
     public static final int heroInitialHealth = 30;
     public static final String noManaHero;
@@ -23,21 +26,38 @@ public class Hero extends Card {
         rowNotCur = "Selected row does not belong to the current player.";
     }
 
+    /**
+     * Constructor used to build a Hero card, calls the constructor
+     * from the super class Card and also sets the heroInitialHealth
+     */
     public Hero(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
         setHealth(heroInitialHealth);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isHero() {
         return true;
     }
 
+    /**
+     * Method applied to use a hero's ability
+     * @param table the current Game Table
+     * @param affectedRow the affected row
+     * @param currentPlayerId the id of the player that has this hero
+     * @return null if no error occurred, or an appropriate error otherwise
+     */
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String
     useHeroAbility(GameTable table, int affectedRow, Player currentPlayer) {
@@ -50,6 +70,9 @@ public class Hero extends Card {
         return useAbility(table, affectedRow, currentPlayer.getPlayerId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ObjectNode writeCard() {
         ObjectNode heroNode = JsonNode.mapper.createObjectNode();

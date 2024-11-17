@@ -7,9 +7,18 @@ import org.poo.main.GameTable;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to represent hero "General Kocioraw"
+ * @see Hero
+ */
 public final class GeneralKocioraw extends Hero {
     public static final int generalKociorawAddedDamage = 1;
 
+    /**
+     * Constructor used to build "General Kocioraw", just calls
+     * the constructor from the super class (Hero)
+     * @see Hero
+     */
     public GeneralKocioraw(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
@@ -23,6 +32,9 @@ public final class GeneralKocioraw extends Hero {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {

@@ -8,8 +8,17 @@ import org.poo.main.GamesSetup;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to represent hero "Empress Thorina"
+ * @see Hero
+ */
 public final class EmpressThorina extends Hero {
 
+    /**
+     * Constructor used to create "Empress Thorina", just calls the
+     * constructor from the super Class (Hero)
+     * @see Hero
+     */
     public EmpressThorina(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
@@ -32,6 +41,9 @@ public final class EmpressThorina extends Hero {
         table.removeCard(cardToDestroy);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {

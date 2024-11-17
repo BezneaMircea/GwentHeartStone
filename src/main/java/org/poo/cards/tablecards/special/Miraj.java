@@ -7,11 +7,24 @@ import org.poo.fileio.CardInput;
 import org.poo.main.Errors;
 import org.poo.main.GameTable;
 
+/**
+ * Class used to represent the card "Miraj"
+ */
 public final class Miraj extends FrontRowCard {
+
+    /**
+     * Constructor for the Miraj card, just calls the constructor
+     * from the super class (FrontRowCard)
+     * @see FrontRowCard
+     */
     public Miraj(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
         if (attackedCard.getBelongsTo() == currentPlayer)

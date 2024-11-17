@@ -7,9 +7,18 @@ import org.poo.main.GameTable;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to represent the hero "King Mudface"
+ * @see Hero
+ */
 public final class KingMudface extends Hero {
     public static final int kingMudfaceAddedHp = 1;
 
+    /**
+     * Constructor used to build "King Mudface", just calls
+     * the constructor from the super class (Hero)
+     * @see Hero
+     */
     public KingMudface(CardInput cardInput, int belongsTo) {
         super(cardInput, belongsTo);
     }
@@ -23,6 +32,9 @@ public final class KingMudface extends Hero {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String
     useAbility(GameTable table, int affectedRow, int currentPlayerId) {
