@@ -3,10 +3,8 @@ package org.poo.cards.tablecards.special;
 
 import org.poo.cards.tablecards.BackRowCard;
 import org.poo.cards.Card;
-import org.poo.cards.tablecards.FrontRowCard;
 import org.poo.fileio.CardInput;
-import org.poo.main.Errors;
-import org.poo.main.GameTable;
+import org.poo.game.GameTable;
 
 /**
  * Class used to represent the card "Disciple"
@@ -33,6 +31,6 @@ public final class Disciple extends BackRowCard {
         attackedCard.setHealth(attackedCard.getHealth() + 2);
         setHasAttacked(true);
 
-        return Errors.noError;
+        return null;
     }
 }

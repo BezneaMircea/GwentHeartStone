@@ -1,42 +1,87 @@
+# GwentStone
+### Benzea Mircea-Andrei 
 
 
-# Tema POO  - GwentStone
+## Introduction:
 
-<div align="center"><img src="https://tenor.com/view/witcher3-gif-9340436.gif" width="500px"></div>
+This project is implements the backend logic for a card game similar to  
+Gwent and Hearthstone. The output is formated in JSON files
 
-#### Assignment Link: [https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema)
+## Packaging:
+1. ###  The _card_ package
+The entire hierarchy of inheritance within
+the package is represented in the scheme bellow:
 
+   * ##  **Card**
+     * #### Hero 
+        >* Empress Thorina
+        >* General Kocioraw
+        >* King Mudface
+        >* Lord Royce
+     * #### Table Card
+        > * BackRowCard 
+        >     * The Cursed One
+        >     * Disciple
+        > * FrontRowCard
+        >     * Tank
+        >     * The Ripper
+        >     * Miraj  
 
-## Skel Structure
+2. ### There is also the _**game**_ package that has the following classes:
 
-* src/
-  * checker/ - checker files
-  * fileio/ - contains classes used to read data from the json files
-  * main/
-      * Main - the Main class runs the checker on your implementation. Add the entry point to your implementation in it. Run Main to test your implementation from the IDE or from command line.
-      * Test - run the main method from Test class with the name of the input file from the command line and the result will be written
-        to the out.txt file. Thus, you can compare this result with ref.
-* input/ - contains the tests in JSON format
-* ref/ - contains all reference output for the tests in JSON format
+* ###  Player
+    > Represents a player in the game and the methods it can perform such as  
+drawCard(), placeCard() etc.
+* ### GamesSetup
+    > This class is used to set up and start the games given at input.  
+In this class we create an instance of the Game class for each of the  
+played games. We start the game and retrieve a game output for each  
+of the games that is then written in the output ArrayNode.
+* ### Game 
+  > This class is used to perform possible actions within a game and  
+also some statistic related actions regarding the current series of games  
+such as getTotalGamesPlayed(), getPlayerOneWins(), getPlayerTwoWins().
 
-## Tests
+* ### Game Table
+    > This class is used to represent a game table, it s constants  
+  > (e.g. nr of columns, nr of lines), and some table specific methods  
+  > (e.g. addCard, doesPlayerHaveTanks).
+  
+3. ### The _utils_ package containing the following class:
 
-1. test01_game_start - 4p
-2. test02_place_card - 5p
-3. test03_place_card_invalid - 5p
-4. test04_attack_card - 5p
-5. test05_attack_card_invalid - 5p
-6. test06_use_card_ability - 5p
-7. test07_use_card_ability_invalid - 5p
-8. test08_attack_hero - 5p
-9. test09_attack_hero_invalid - 5p
-10. test10_use_hero_ability_1 - 4p
-11. test11_use_hero_ability_2 - 4p
-12. test12_use_hero_ability_invalid_1 - 4p
-13. test13_use_hero_ability_invalid_2 - 4p
-14. test14_multiple_games_valid - 5p
-15. test15_multiple_games_invalid - 5p
-16. test16_big_game - 10p
+* ### JsonNode
+   >   This class is a helper class used to write input + output of  
+  a command in JSON format.
+  
+4. ### The _main_ package contains the following classes:
 
+* ### Main
+    > This class is used to write the output of each test in JSON  
+  > format
+* ### Test
+    > Class used for testing
 
-<div align="center"><img src="https://tenor.com/view/homework-time-gif-24854817.gif" width="500px"></div>
+## Code Flow:  
+Starting from the main package, in the main class we create an instace of the  
+GamesSetup class in which we create instances of the Game class for each of  
+the games received in the input.
+
+In the Game class all actions are taken care of with the use of a public method  
+that handles the command name of all the actions within a game/series of games.  
+After that, depending on the command we will go through a private method  
+located in the Game class that later on calls methods located in other classes  
+such as: Cards (and by polymorphism the inheriting classes), Player, GameTable.
+
+The output is generated with the help of the utility class JsonNode in the  
+Game class and merged in the GamesSetup class.
+
+## Project Feedback
+
+This was an interesting project that helped me learn a lot about the basics  
+of **OOP**. I really would recommend to anyone that wants to have a solid  
+knowledge about primary OOP concepts such as Polymorphism and Inheritance  
+take on the assignment.
+#### Thank you for your attention!
+
+![Golum](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbr.com%2Fgollum-history-relationships-theories-lord-of-the-rings%2F&psig=AOvVaw1Am_lw7_T8s64-cwwhqyP_&ust=1731971908105000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIj_y6jA5IkDFQAAAAAdAAAAABAE)
+

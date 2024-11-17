@@ -1,4 +1,4 @@
-package org.poo.main;
+package org.poo.game;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -7,10 +7,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.cards.Card;
 import org.poo.fileio.ActionsInput;
 import org.poo.fileio.Coordinates;
+import org.poo.utils.JsonNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -273,7 +273,7 @@ public class Game {
 
         String error = hero.useHeroAbility(table, affectedRow, player);
 
-        if (Objects.equals(error, Errors.noError))
+        if (error == null)
             player.setMana(player.getMana() - hero.getMana());
 
 

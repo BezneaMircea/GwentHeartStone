@@ -3,8 +3,8 @@ package org.poo.cards;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import org.poo.fileio.CardInput;
-import org.poo.main.GameTable;
-import org.poo.main.Player;
+import org.poo.game.GameTable;
+import org.poo.game.Player;
 
 /**
  * Class used to represent the generalities of a card.
@@ -26,7 +26,7 @@ public class Card {
      * @param cardInput the card data
      * @param belongsTo id of the player that the card belongs to
      */
-    public Card(CardInput cardInput, int belongsTo) {
+    public Card(final CardInput cardInput, final int belongsTo) {
         mana = cardInput.getMana();
         health = cardInput.getHealth();
         description = cardInput.getDescription();
@@ -47,7 +47,10 @@ public class Card {
      * @return null if the action succeeded or an appropriate
      * error in case it fails
      */
-    public String attackCard(GameTable table, int currentPlayerId, Card attackedCard) {
+    public String
+    attackCard(final GameTable table,
+               final int currentPlayerId,
+               final Card attackedCard) {
         return null;
     }
 
@@ -55,25 +58,31 @@ public class Card {
      * Method to get the row where to place a current card
      * @return index of the row where to place the current card
      */
-    public int getRowToPlace() {return -1; }
+    public int getRowToPlace() {
+        return -1;
+    }
 
     /**
      * Method to find out if a card is frozen or not
      * @return true if the card is frozen, false otherwise
      */
-    public boolean isFrozen() { return false; }
+    public boolean isFrozen() {
+        return false;
+    }
 
     /**
      * Method used to freeze or unfreeze a card
      */
-    public void setFrozen(boolean frozen) {
+    public void setFrozen(final boolean frozen) {
     }
 
     /**
      * Method to find out if the current card is a tank or not
      * @return true if card is tank, false otherwise
      */
-    public boolean isTank() {return false; }
+    public boolean isTank() {
+        return false;
+    }
 
     /**
      * Method to find out if the current card is a hero or not
@@ -98,7 +107,9 @@ public class Card {
      * @param currentPlayer the id of the player that performs the action
      * @return null if no error occurred, or an appropriate error otherwise
      */
-    public String useCardAbility(Card attackedCard, GameTable table, int currentPlayer) {
+    public String useCardAbility(final Card attackedCard,
+                                 final GameTable table,
+                                 final int currentPlayer) {
         return null;
     }
 
@@ -112,67 +123,77 @@ public class Card {
      * an appropriate error otherwise
      */
     public String
-    useHeroAbility(GameTable table, int affectedRow, Player currentPlayer) {
+    useHeroAbility(final GameTable table,
+                   final int affectedRow,
+                   final Player currentPlayer) {
         return null;
     }
 
 
 
-    public int getMana() {
+    public final int getMana() {
         return mana;
     }
 
-    public void setMana(int mana) {
+    public final void setMana(final int mana) {
         this.mana = mana;
     }
 
-    public int getHealth() {
+    public final int getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public final void setHealth(final int health) {
         this.health = health;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public final void setDescription(final String description) {
         this.description = description;
     }
 
-    public ArrayList<String> getColors() {
+    public final ArrayList<String> getColors() {
         return colors;
     }
 
-    public void setColors(ArrayList<String> colors) {
+    public final void setColors(final ArrayList<String> colors) {
         this.colors = colors;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public boolean getHasAttacked() {
+    public final boolean getHasAttacked() {
         return hasAttacked;
     }
 
-    public void setHasAttacked(boolean hasAttacked) {
+    public final void setHasAttacked(final boolean hasAttacked) {
         this.hasAttacked = hasAttacked;
     }
 
-    public int getBelongsTo() {
+    public final int getBelongsTo() {
         return belongsTo;
     }
 
+    /**
+     * Method used to get the attack damage that a card has
+     * @return the attack Damage
+     */
     public int getAttackDamage() {
         return 0;
     }
 
-    public void setAttackDamage(int attackDamage) {}
+    /**
+     * Method used to set the attack damage to the current card
+     */
+    public void setAttackDamage(final int attackDamage) {
+    }
 }

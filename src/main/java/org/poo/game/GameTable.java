@@ -1,8 +1,7 @@
-package org.poo.main;
+package org.poo.game;
 
 import org.poo.cards.Card;
 import org.poo.fileio.Coordinates;
-
 import java.util.ArrayList;
 
 
@@ -80,7 +79,7 @@ public final class GameTable {
 
         table.get(card.getRowToPlace()).add(card);
 
-        return Errors.noError;
+        return null;
     }
 
     /**

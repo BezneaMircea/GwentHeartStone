@@ -1,4 +1,4 @@
-package org.poo.main;
+package org.poo.game;
 
 import org.poo.cards.*;
 import org.poo.cards.heroes.*;
@@ -101,7 +101,7 @@ public final class Player {
      * @param table the game table where the card will be placed
      * @param handIdx the index of the card to be placed from the player's hand
      * @return an error string if an error occurs or
-     * noError(currently null) if no error was found
+     * null if no error was found
      */
     public String placeCard(GameTable table, int handIdx) {
         Card card = hand.get(handIdx);
@@ -112,7 +112,7 @@ public final class Player {
 
         hand.remove(handIdx);
         mana -= card.getMana();
-        return Errors.noError;
+        return null;
     }
 
 

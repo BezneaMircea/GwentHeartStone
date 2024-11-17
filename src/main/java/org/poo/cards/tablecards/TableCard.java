@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.cards.Card;
 import org.poo.fileio.CardInput;
-import org.poo.main.Errors;
-import org.poo.main.Game;
-import org.poo.main.GameTable;
-import org.poo.main.JsonNode;
+import org.poo.game.GamesSetup;
+import org.poo.game.Game;
+import org.poo.game.GameTable;
+import org.poo.utils.JsonNode;
 
 /**
  * Class used to represent cards that can be placed on the gameTable.
@@ -110,7 +110,7 @@ public class TableCard extends Card {
             table.removeCard(attackedCard);
         }
 
-        return Errors.noError;
+        return null;
     }
 
 
@@ -128,11 +128,11 @@ public class TableCard extends Card {
         if (isFrozen())
             return isFrozen;
 
-        int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
+        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
             return notTank;
 
-        return Errors.noError;
+        return null;
     }
 
 
@@ -147,11 +147,11 @@ public class TableCard extends Card {
         if (getHasAttacked())
             return cardAlreadyAttacked;
 
-        int enemyIdx = Errors.getOtherPlayerIdx(curPlayerId);
+        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
             return notTank;
 
-        return Errors.noError;
+        return null;
     }
 
 

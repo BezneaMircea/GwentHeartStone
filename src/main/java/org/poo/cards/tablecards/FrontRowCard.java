@@ -1,8 +1,8 @@
 package org.poo.cards.tablecards;
 
 import org.poo.fileio.CardInput;
-import org.poo.main.GamesSetup;
-import org.poo.main.GameTable;
+import org.poo.game.GamesSetup;
+import org.poo.game.GameTable;
 
 /**
  * Class used for cards that must be placed on the front row

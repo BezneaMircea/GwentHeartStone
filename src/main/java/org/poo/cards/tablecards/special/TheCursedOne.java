@@ -3,10 +3,9 @@ package org.poo.cards.tablecards.special;
 
 import org.poo.cards.tablecards.BackRowCard;
 import org.poo.cards.Card;
-import org.poo.cards.tablecards.FrontRowCard;
 import org.poo.fileio.CardInput;
-import org.poo.main.Errors;
-import org.poo.main.GameTable;
+import org.poo.game.GamesSetup;
+import org.poo.game.GameTable;
 
 /**
  * Class used to represent the card "The Cursed One"
@@ -29,7 +28,7 @@ public final class TheCursedOne extends BackRowCard {
         if (attackedCard.getBelongsTo() == currentPlayer)
             return attackedDontBelongEnnemy;
 
-        if (table.doesPlayerHaveTanks(Errors.getOtherPlayerIdx(currentPlayer))
+        if (table.doesPlayerHaveTanks(GamesSetup.getOtherPlayerIdx(currentPlayer))
                 && !attackedCard.isTank())
             return notTank;
 
@@ -41,6 +40,6 @@ public final class TheCursedOne extends BackRowCard {
             table.removeCard(attackedCard);
         setHasAttacked(true);
 
-        return Errors.noError;
+        return null;
     }
 }

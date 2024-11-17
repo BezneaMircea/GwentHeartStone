@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
 import org.poo.fileio.Input;
+import org.poo.game.GamesSetup;
 
 
 import java.io.File;
@@ -29,6 +30,7 @@ public final class Main {
     /**
      * DO NOT MODIFY MAIN METHOD
      * Call the checker
+     *
      * @param args from command line
      * @throws IOException in case of exceptions to reading / writing
      */

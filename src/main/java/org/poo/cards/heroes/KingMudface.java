@@ -2,8 +2,7 @@ package org.poo.cards.heroes;
 
 import org.poo.cards.Card;
 import org.poo.fileio.CardInput;
-import org.poo.main.Errors;
-import org.poo.main.GameTable;
+import org.poo.game.GameTable;
 
 import java.util.ArrayList;
 
@@ -44,7 +43,7 @@ public final class KingMudface extends Hero {
         earthBorn(table, affectedRow);
         setHasAttacked(true);
 
-        return Errors.noError;
+        return null;
     }
 
 }

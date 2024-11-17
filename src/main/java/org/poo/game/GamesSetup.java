@@ -1,4 +1,4 @@
-package org.poo.main;
+package org.poo.game;
 
 
 import java.util.ArrayList;
@@ -43,6 +43,12 @@ public final class GamesSetup {
         playerTwoWins = 0;
     }
 
+    public static int getOtherPlayerIdx(int playerIdx) {
+        if (playerIdx == playerOneIdx) {
+            return playerTwoIdx;
+        }
+        return playerOneIdx;
+    }
     /**
      * Method used in order to play all the games
      */

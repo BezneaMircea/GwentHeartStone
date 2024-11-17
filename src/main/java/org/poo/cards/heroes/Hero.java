@@ -2,11 +2,15 @@ package org.poo.cards.heroes;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.poo.cards.Card;
+
 import org.poo.fileio.CardInput;
-import org.poo.main.GameTable;
-import org.poo.main.JsonNode;
-import org.poo.main.Player;
+
+import org.poo.game.GameTable;
+import org.poo.game.Player;
+import org.poo.utils.JsonNode;
+
 
 
 /**
