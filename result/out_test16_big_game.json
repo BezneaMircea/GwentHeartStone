@@ -222,11 +222,11 @@
   } ]
 }, {
   "command" : "getTotalGamesPlayed",
-  "output" : 18
+  "output" : 1
 }, {
   "command" : "getPlayerTwoWins",
-  "output" : 2
+  "output" : 0
 }, {
   "command" : "getPlayerOneWins",
-  "output" : 4
+  "output" : 1
 } ]

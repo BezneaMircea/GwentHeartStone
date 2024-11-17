@@ -102,6 +102,17 @@ public final class JsonNode {
         return tableNode;
     }
 
+
+
+    private static ObjectNode
+    writeCoordinates(Coordinates cord) {
+        ObjectNode coordinatesNode = mapper.createObjectNode();
+        coordinatesNode.put("x", cord.getX());
+        coordinatesNode.put("y", cord.getY());
+
+        return coordinatesNode;
+    }
+
     public static ObjectNode
     writeCardAtPosition(ActionsInput action, Card card, String error) {
         ObjectNode positionNode = mapper.createObjectNode();
@@ -115,17 +126,6 @@ public final class JsonNode {
             positionNode.put("output", error);
 
         return positionNode;
-    }
-
-
-
-    private static ObjectNode
-    writeCoordinates(Coordinates cord) {
-        ObjectNode coordinatesNode = mapper.createObjectNode();
-        coordinatesNode.put("x", cord.getX());
-        coordinatesNode.put("y", cord.getY());
-
-        return coordinatesNode;
     }
 
     public static ObjectNode

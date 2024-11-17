@@ -10,6 +10,9 @@ public class GamesSetup {
     public static final int playerTwoIdx = 2;
     public static final int initialMana = 1;
     public static final int maxManaGiven = 10;
+    public static int totalGamesPlayed;
+    public static int playerOneWins;
+    public static int playerTwoWins;
 
     private final DecksInput playerOneDecks;
     private final DecksInput playerTwoDecks;
@@ -21,6 +24,9 @@ public class GamesSetup {
         playerTwoDecks = input.getPlayerTwoDecks();
         games = input.getGames();
         this.output = output;
+        totalGamesPlayed = 0;
+        playerOneWins = 0;
+        playerTwoWins = 0;
     }
 
     private long getSeed(StartGameInput startGameInput) {

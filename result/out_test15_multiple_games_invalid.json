@@ -297,13 +297,13 @@
   "output" : [ ]
 }, {
   "command" : "getTotalGamesPlayed",
-  "output" : 16
-}, {
-  "command" : "getPlayerTwoWins",
   "output" : 1
 }, {
+  "command" : "getPlayerTwoWins",
+  "output" : 0
+}, {
   "command" : "getPlayerOneWins",
-  "output" : 3
+  "output" : 1
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
@@ -802,11 +802,11 @@
   "output" : [ ]
 }, {
   "command" : "getTotalGamesPlayed",
-  "output" : 17
-}, {
-  "command" : "getPlayerTwoWins",
   "output" : 2
 }, {
+  "command" : "getPlayerTwoWins",
+  "output" : 1
+}, {
   "command" : "getPlayerOneWins",
-  "output" : 3
+  "output" : 1
 } ]

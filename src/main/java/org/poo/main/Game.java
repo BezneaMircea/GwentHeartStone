@@ -21,10 +21,7 @@ public class Game {
     private int currentPlayer;
     private final int startingPlayer;
     private final GameTable table;
-
-    private static int totalGamesPlayed = 0;
-    private static int playerOneWins = 0;
-    private static int playerTwoWins = 0;
+    ;
     public static final String playerOneWon;
     public static final String playerTwoWon;
 
@@ -50,7 +47,7 @@ public class Game {
         this.seed.setSeed(seed);
         ShuffleDeck(playerTwo.getDeck(), this.seed);
 
-        totalGamesPlayed++;
+        GamesSetup.totalGamesPlayed++;
     }
 
     public static String gameEnded(int currentPlayerId) {
@@ -206,10 +203,10 @@ public class Game {
         String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
 
         if (playerOneWon.equals(res))
-            playerOneWins++;
+            GamesSetup.playerOneWins++;
 
         if (playerTwoWon.equals(res))
-            playerTwoWins++;
+            GamesSetup.playerTwoWins++;
 
         return JsonNode.writeUseAttackHero(action, res);
     }
@@ -233,7 +230,7 @@ public class Game {
     }
 
     private ObjectNode getTotalGamesPlayed(ActionsInput action) {
-        int gamesPlayed = totalGamesPlayed;
+        int gamesPlayed = GamesSetup.totalGamesPlayed;
         return JsonNode.writeTotalGamesPlayed(action, gamesPlayed);
     }
 
@@ -255,8 +252,8 @@ public class Game {
             case "placeCard" -> placeCard(action);
             case "endPlayerTurn" -> endPlayerTurn();
             case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
-            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, playerOneWins);
-            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, playerTwoWins);
+            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerOneWins);
+            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerTwoWins);
             default -> null;
         };
 
