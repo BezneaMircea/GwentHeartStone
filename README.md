@@ -83,5 +83,5 @@ knowledge about primary OOP concepts such as Polymorphism and Inheritance
 take on the assignment.
 #### Thank you for your attention!
 
-![Golum](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbr.com%2Fgollum-history-relationships-theories-lord-of-the-rings%2F&psig=AOvVaw1Am_lw7_T8s64-cwwhqyP_&ust=1731971908105000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIj_y6jA5IkDFQAAAAAdAAAAABAE)
+![Homework done](https://media.tenor.com/9qooEZ2uscQAAAAM/sleepy-tom-and-jerry.gif)
 
