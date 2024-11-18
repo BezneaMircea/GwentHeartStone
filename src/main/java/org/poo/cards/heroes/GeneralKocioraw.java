@@ -8,26 +8,28 @@ import java.util.ArrayList;
 
 /**
  * Class used to represent hero "General Kocioraw"
+ *
  * @see Hero
  */
 public final class GeneralKocioraw extends Hero {
-    public static final int generalKociorawAddedDamage = 1;
+    public static final int GENERAL_KOCIORAW_ADDED_DAMAGE = 1;
 
     /**
      * Constructor used to build "General Kocioraw", just calls
      * the constructor from the super class (Hero)
+     *
      * @see Hero
      */
-    public GeneralKocioraw(CardInput cardInput, int belongsTo) {
+    public GeneralKocioraw(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
-    private void bloodThirst(GameTable table, int affectedRow) {
-        ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
+    private void bloodThirst(final GameTable table, final int affectedRow) {
+        final ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
 
-        for (Card card : affectedCards) {
-            int currentDamage = card.getAttackDamage();
-            card.setAttackDamage(currentDamage + generalKociorawAddedDamage);
+        for (final Card card : affectedCards) {
+            final int currentDamage = card.getAttackDamage();
+            card.setAttackDamage(currentDamage + GENERAL_KOCIORAW_ADDED_DAMAGE);
         }
     }
 
@@ -36,9 +38,10 @@ public final class GeneralKocioraw extends Hero {
      */
     @Override
     protected String
-    useAbility(GameTable table, int affectedRow, int currentPlayerId) {
-        if (!table.rowBelongsPlayer(affectedRow, currentPlayerId))
-            return rowNotCur;
+    useAbility(final GameTable table, final int affectedRow, final int currentPlayerId) {
+        if (!table.rowBelongsPlayer(affectedRow, currentPlayerId)) {
+            return ROW_NOT_CUR;
+        }
 
         bloodThirst(table, affectedRow);
         setHasAttacked(true);

@@ -29,12 +29,13 @@ public final class Player {
      * In this constructor we also check for the name of the cards
      * within the player's deck in order to declare them with the proper
      * dynamic type
-     * @param hero hero of the current player
-     * @param deck deck of the current player
+     *
+     * @param hero     hero of the current player
+     * @param deck     deck of the current player
      * @param playerId id of the current player
      */
-    public Player(CardInput hero, ArrayList<CardInput> deck, int playerId) {
-        String heroName = hero.getName();
+    public Player(final CardInput hero, final ArrayList<CardInput> deck, final int playerId) {
+        final String heroName = hero.getName();
         switch (heroName) {
             case "Lord Royce":
                 this.hero = new LordRoyce(hero, playerId);
@@ -53,8 +54,8 @@ public final class Player {
         }
 
         this.deck = new ArrayList<Card>();
-        for (CardInput card : deck) {
-            String name = card.getName();
+        for (final CardInput card : deck) {
+            final String name = card.getName();
             switch (name) {
                 case "The Ripper":
                     this.deck.add(new TheRipper(card, playerId));
@@ -89,8 +90,9 @@ public final class Player {
      * Method used to draw a card from the players deck and put it in his hand
      */
     public void drawCard() {
-        if (deck.isEmpty())
+        if (deck.isEmpty()) {
             return;
+        }
 
         hand.add(deck.remove(0));
     }
@@ -98,25 +100,24 @@ public final class Player {
 
     /**
      * Method used to place a card on the table
-     * @param table the game table where the card will be placed
+     *
+     * @param table   the game table where the card will be placed
      * @param handIdx the index of the card to be placed from the player's hand
      * @return an error string if an error occurs or
      * null if no error was found
      */
-    public String placeCard(GameTable table, int handIdx) {
-        Card card = hand.get(handIdx);
+    public String placeCard(final GameTable table, final int handIdx) {
+        final Card card = hand.get(handIdx);
 
-        String error = table.addCard(card, mana);
-        if (error != null)
+        final String error = table.addCard(card, mana);
+        if (error != null) {
             return error;
+        }
 
         hand.remove(handIdx);
         mana -= card.getMana();
         return null;
     }
-
-
-
 
 
     public ArrayList<Card> getDeck() {
@@ -131,7 +132,7 @@ public final class Player {
         return mana;
     }
 
-    public void setMana(int mana) {
+    public void setMana(final int mana) {
         this.mana = mana;
     }
 

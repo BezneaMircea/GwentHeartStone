@@ -13,16 +13,18 @@ public class BackRowCard extends TableCard {
      * Constructor for the current class that calls the constructor from
      * the super class with the same params and also sets the rowToPlace
      * attribute
+     *
      * @param cardInput the specific input of the given card
      * @param belongsTo the id of the player that the card belongs to
      */
-    public BackRowCard(CardInput cardInput, int belongsTo) {
+    public BackRowCard(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
 
-        if (belongsTo == GamesSetup.playerOneIdx)
-            setRowToPlace(GameTable.playerOneBackRow);
-        else
-            setRowToPlace(GameTable.playerTwoBackRow);
+        if (belongsTo == GamesSetup.PLAYER_ONE_IDX) {
+            setRowToPlace(GameTable.PLAYER_ONE_BACK_ROW);
+        } else {
+            setRowToPlace(GameTable.PLAYER_TWO_BACK_ROW);
+        }
     }
 
 }

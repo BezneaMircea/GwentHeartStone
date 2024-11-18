@@ -14,9 +14,10 @@ public final class TheCursedOne extends BackRowCard {
     /**
      * Constructor used to create "The Cursed One" card, just calls
      * the constructor from the super class (BackRowCard)
+     *
      * @see BackRowCard
      */
-    public TheCursedOne(CardInput cardInput, int belongsTo) {
+    public TheCursedOne(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -24,20 +25,23 @@ public final class TheCursedOne extends BackRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
-        if (attackedCard.getBelongsTo() == currentPlayer)
-            return attackedDontBelongEnnemy;
+    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+        if (attackedCard.getBelongsTo() == currentPlayer) {
+            return ATTACKED_DONT_BELONG_ENNEMY;
+        }
 
         if (table.doesPlayerHaveTanks(GamesSetup.getOtherPlayerIdx(currentPlayer))
-                && !attackedCard.isTank())
-            return notTank;
+                && !attackedCard.isTank()) {
+            return NOT_TANK;
+        }
 
-        int cardAttackDamage = attackedCard.getAttackDamage();
+        final int cardAttackDamage = attackedCard.getAttackDamage();
         attackedCard.setAttackDamage(attackedCard.getHealth());
         attackedCard.setHealth(cardAttackDamage);
 
-        if(attackedCard.getHealth() == 0)
+        if (attackedCard.getHealth() == 0) {
             table.removeCard(attackedCard);
+        }
         setHasAttacked(true);
 
         return null;

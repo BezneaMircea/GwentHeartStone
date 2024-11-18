@@ -8,26 +8,28 @@ import java.util.ArrayList;
 
 /**
  * Class used to represent the hero "King Mudface"
+ *
  * @see Hero
  */
 public final class KingMudface extends Hero {
-    public static final int kingMudfaceAddedHp = 1;
+    public static final int KING_MUDFACE_ADDED_HP = 1;
 
     /**
      * Constructor used to build "King Mudface", just calls
      * the constructor from the super class (Hero)
+     *
      * @see Hero
      */
-    public KingMudface(CardInput cardInput, int belongsTo) {
+    public KingMudface(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
-    private void earthBorn(GameTable table, int affectedRow) {
-        ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
+    private void earthBorn(final GameTable table, final int affectedRow) {
+        final ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
 
-        for (Card card : affectedCards) {
-            int currentHealth = card.getHealth();
-            card.setHealth(currentHealth + kingMudfaceAddedHp);
+        for (final Card card : affectedCards) {
+            final int currentHealth = card.getHealth();
+            card.setHealth(currentHealth + KING_MUDFACE_ADDED_HP);
         }
     }
 
@@ -36,9 +38,10 @@ public final class KingMudface extends Hero {
      */
     @Override
     protected String
-    useAbility(GameTable table, int affectedRow, int currentPlayerId) {
-        if (!table.rowBelongsPlayer(affectedRow, currentPlayerId))
-            return rowNotCur;
+    useAbility(final GameTable table, final int affectedRow, final int currentPlayerId) {
+        if (!table.rowBelongsPlayer(affectedRow, currentPlayerId)) {
+            return ROW_NOT_CUR;
+        }
 
         earthBorn(table, affectedRow);
         setHasAttacked(true);

@@ -14,9 +14,10 @@ public final class Disciple extends BackRowCard {
     /**
      * Constructor for the Disciple card, just calls the constructor
      * from the super class (BackRowCard)
+     *
      * @see BackRowCard
      */
-    public Disciple(CardInput cardInput, int belongsTo) {
+    public Disciple(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -24,9 +25,10 @@ public final class Disciple extends BackRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
-        if (attackedCard.getBelongsTo() != currentPlayer)
-            return attackedDontBelongCur;
+    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+        if (attackedCard.getBelongsTo() != currentPlayer) {
+            return ATTACKED_DONT_BELONG_CUR;
+        }
 
         attackedCard.setHealth(attackedCard.getHealth() + 2);
         setHasAttacked(true);

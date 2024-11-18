@@ -11,9 +11,10 @@ public final class Tank extends FrontRowCard {
     /**
      * Constructor to create a tank, just calls the constructor
      * from the super class (FrontRowCard)
+     *
      * @see FrontRowCard
      */
-    public Tank(CardInput cardInput, int belongsTo) {
+    public Tank(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -21,6 +22,8 @@ public final class Tank extends FrontRowCard {
      * {@inheritDoc}
      */
     @Override
-    public boolean isTank() {return true; }
+    public boolean isTank() {
+        return true;
+    }
 
 }

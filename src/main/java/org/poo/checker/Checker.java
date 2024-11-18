@@ -24,7 +24,7 @@ public final class Checker {
     private static void calculateScoreGit() {
         System.out.print("GIT commit score: ");
 
-        Path path = Paths.get("git_log.txt");
+        final Path path = Paths.get("git_log.txt");
         if (Files.exists(path)) {
             gitScore = CheckerConstants.FIVE_POINTS;
             System.out.println(gitScore + "/5");
@@ -37,9 +37,9 @@ public final class Checker {
     private static void calculateScoreReadme() {
         System.out.println("-----------------------------------------------------");
         System.out.print("README score: ");
-        Path path1 = Paths.get("README");
-        Path path2 = Paths.get("README.md");
-        Path path3 = Paths.get("README.txt");
+        final Path path1 = Paths.get("README");
+        final Path path2 = Paths.get("README.md");
+        final Path path3 = Paths.get("README.txt");
 
         if (Files.exists(path1) || Files.exists(path2) || Files.exists(path3)) {
             readmeScore = CheckerConstants.FIVE_POINTS;
@@ -57,11 +57,11 @@ public final class Checker {
     public static void calculateScore() throws IOException {
         System.out.println();
         calculateScoreAllTests();
-        int checkstyleScore = calculateScoreCheckstyle();
+        final int checkstyleScore = calculateScoreCheckstyle();
         calculateScoreGit();
         calculateScoreReadme();
 
-        int finalScore = totalScore + gitScore + readmeScore + checkstyleScore;
+        final int finalScore = totalScore + gitScore + readmeScore + checkstyleScore;
         System.out.println("-----------------------------------------------------");
         System.out.println("Total: " + finalScore + "/100");
 
@@ -84,14 +84,14 @@ public final class Checker {
      * 18 tests (80 points maximum)
      */
     private static void calculateScoreAllTests() throws IOException {
-        File directory = new File(CheckerConstants.TESTS_PATH);
-        Path path = Paths.get(CheckerConstants.RESULT_PATH);
+        final File directory = new File(CheckerConstants.TESTS_PATH);
+        final Path path = Paths.get(CheckerConstants.RESULT_PATH);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
-        List<String> listFile = Arrays.asList(Objects.requireNonNull(directory.list()));
+        final List<String> listFile = Arrays.asList(Objects.requireNonNull(directory.list()));
         Collections.sort(listFile);
-        for (String file : listFile) {
+        for (final String file : listFile) {
             totalScore += calculateScore(file);
         }
 
@@ -128,14 +128,14 @@ public final class Checker {
      *          if the two files are equal or not
      */
     private static boolean checkOutput(final String file) {
-        ObjectMapper mapper = new ObjectMapper();
+        final ObjectMapper mapper = new ObjectMapper();
 
         try {
-            JsonNode output = mapper.readTree(new File(CheckerConstants.OUT_PATH + file));
-            JsonNode ref = mapper.readTree(new File(CheckerConstants.REF_PATH + file));
+            final JsonNode output = mapper.readTree(new File(CheckerConstants.OUT_PATH + file));
+            final JsonNode ref = mapper.readTree(new File(CheckerConstants.REF_PATH + file));
             return output.equals(ref);
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return false;

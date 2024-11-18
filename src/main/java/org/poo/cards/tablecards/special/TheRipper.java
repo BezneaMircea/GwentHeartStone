@@ -13,9 +13,10 @@ public final class TheRipper extends FrontRowCard {
     /**
      * Constructor used to create "The Ripper" card, just calls
      * the constructor from the super class.
+     *
      * @see FrontRowCard
      */
-    public TheRipper(CardInput cardInput, int belongsTo) {
+    public TheRipper(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -23,18 +24,21 @@ public final class TheRipper extends FrontRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
-        if (attackedCard.getBelongsTo() == currentPlayer)
-            return attackedDontBelongEnnemy;
+    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+        if (attackedCard.getBelongsTo() == currentPlayer) {
+            return ATTACKED_DONT_BELONG_ENNEMY;
+        }
 
         if (table.doesPlayerHaveTanks(GamesSetup.getOtherPlayerIdx(currentPlayer))
-                && !attackedCard.isTank())
-            return notTank;
+                && !attackedCard.isTank()) {
+            return NOT_TANK;
+        }
 
 
         attackedCard.setAttackDamage(attackedCard.getAttackDamage() - 2);
-        if (attackedCard.getAttackDamage() < 0)
+        if (attackedCard.getAttackDamage() < 0) {
             attackedCard.setAttackDamage(0);
+        }
         setHasAttacked(true);
 
         return null;

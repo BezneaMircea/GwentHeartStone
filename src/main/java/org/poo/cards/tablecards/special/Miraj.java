@@ -15,9 +15,10 @@ public final class Miraj extends FrontRowCard {
     /**
      * Constructor for the Miraj card, just calls the constructor
      * from the super class (FrontRowCard)
+     *
      * @see FrontRowCard
      */
-    public Miraj(CardInput cardInput, int belongsTo) {
+    public Miraj(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
@@ -26,15 +27,17 @@ public final class Miraj extends FrontRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(Card attackedCard, GameTable table, int currentPlayer) {
-        if (attackedCard.getBelongsTo() == currentPlayer)
-            return attackedDontBelongEnnemy;
+    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+        if (attackedCard.getBelongsTo() == currentPlayer) {
+            return ATTACKED_DONT_BELONG_ENNEMY;
+        }
 
         if (table.doesPlayerHaveTanks(GamesSetup.getOtherPlayerIdx(currentPlayer))
-                && !attackedCard.isTank())
-            return notTank;
+                && !attackedCard.isTank()) {
+            return NOT_TANK;
+        }
 
-        int aux = getHealth();
+        final int aux = getHealth();
         setHealth(attackedCard.getHealth());
         attackedCard.setHealth(aux);
         setHasAttacked(true);

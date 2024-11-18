@@ -6,6 +6,7 @@ import org.poo.game.GameTable;
 
 /**
  * Class to represent the hero "Lord Royce"
+ *
  * @see Hero
  */
 public final class LordRoyce extends Hero {
@@ -13,15 +14,17 @@ public final class LordRoyce extends Hero {
     /**
      * Constructor used to build "Lord Royce", just calls
      * the constructor from the super class (Hero)
+     *
      * @see Hero
      */
-    public LordRoyce(CardInput cardInput, int belongsTo) {
+    public LordRoyce(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
     }
 
-    private void subZero(GameTable table, int affectedRow) {
-        for (Card card : table.getTable().get(affectedRow))
+    private void subZero(final GameTable table, final int affectedRow) {
+        for (final Card card : table.getTable().get(affectedRow)) {
             card.setFrozen(true);
+        }
     }
 
     /**
@@ -29,9 +32,10 @@ public final class LordRoyce extends Hero {
      */
     @Override
     protected String
-    useAbility(GameTable table, int affectedRow, int currentPlayerId) {
-        if (table.rowBelongsPlayer(affectedRow, currentPlayerId))
-            return rowNotEnemy;
+    useAbility(final GameTable table, final int affectedRow, final int currentPlayerId) {
+        if (table.rowBelongsPlayer(affectedRow, currentPlayerId)) {
+            return ROW_NOT_ENEMY;
+        }
 
         subZero(table, affectedRow);
         setHasAttacked(true);

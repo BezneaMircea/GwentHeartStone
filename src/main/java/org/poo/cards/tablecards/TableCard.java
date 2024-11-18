@@ -21,20 +21,20 @@ public class TableCard extends Card {
     private boolean frozen;
     private int rowToPlace;
 
-    protected static final String isFrozen;
-    protected static final String cardAlreadyAttacked;
-    protected static final String attackedDontBelongCur;
-    protected static final String attackedDontBelongEnnemy;
-    protected static final String attackerDontBelongCur;
-    protected static final String notTank;
+    protected static final String IS_FROZEN;
+    protected static final String CARD_ALREADY_ATTACKED;
+    protected static final String ATTACKED_DONT_BELONG_CUR;
+    protected static final String ATTACKED_DONT_BELONG_ENNEMY;
+    protected static final String ATTACKER_DONT_BELONG_CUR;
+    protected static final String NOT_TANK;
 
     static {
-        isFrozen = "Attacker card is frozen.";
-        cardAlreadyAttacked = "Attacker card has already attacked this turn.";
-        attackedDontBelongCur = "Attacked card does not belong to the current player.";
-        attackedDontBelongEnnemy = "Attacked card does not belong to the enemy.";
-        attackerDontBelongCur = "Attacker card does not belong to the current player.";
-        notTank = "Attacked card is not of type 'Tank'.";
+        IS_FROZEN = "Attacker card is frozen.";
+        CARD_ALREADY_ATTACKED = "Attacker card has already attacked this turn.";
+        ATTACKED_DONT_BELONG_CUR = "Attacked card does not belong to the current player.";
+        ATTACKED_DONT_BELONG_ENNEMY = "Attacked card does not belong to the enemy.";
+        ATTACKER_DONT_BELONG_CUR = "Attacker card does not belong to the current player.";
+        NOT_TANK = "Attacked card is not of type 'Tank'.";
     }
 
 
@@ -43,10 +43,11 @@ public class TableCard extends Card {
      * super class with the same params (cardInput and belongsTo).
      * In addition to the super class constructor, this time the
      * frozen attribute appears and is set to the default value (false)
+     *
      * @param cardInput input of the card
      * @param belongsTo id of the player that card belongs to
      */
-    public TableCard(CardInput cardInput, int belongsTo) {
+    public TableCard(final CardInput cardInput, final int belongsTo) {
         super(cardInput, belongsTo);
         attackDamage = cardInput.getAttackDamage();
         frozen = false;
@@ -56,13 +57,14 @@ public class TableCard extends Card {
     /**
      * Method used to perform a specific TableCard special ability
      * (ex: Disciple, Miraj)
+     *
      * @param attackedCard the card that is attacked
-     * @param table the current GameTable
-     * @param curPlayerId the id of the player that performs the action
+     * @param table        the current GameTable
+     * @param curPlayerId  the id of the player that performs the action
      * @return null if no error occurred or an appropriate one otherwise
      */
     protected String
-    useAbility(Card attackedCard, GameTable table, int curPlayerId) {
+    useAbility(final Card attackedCard, final GameTable table, final int curPlayerId) {
         return null;
     }
 
@@ -71,15 +73,18 @@ public class TableCard extends Card {
      */
     @Override
     public String
-    useCardAbility(Card attackedCard, GameTable table, int curPlayerId) {
-        if (attackedCard == null)
+    useCardAbility(final Card attackedCard, final GameTable table, final int curPlayerId) {
+        if (attackedCard == null) {
             return null;
+        }
 
-        if (frozen)
-            return isFrozen;
+        if (frozen) {
+            return IS_FROZEN;
+        }
 
-        if (getHasAttacked())
-            return cardAlreadyAttacked;
+        if (getHasAttacked()) {
+            return CARD_ALREADY_ATTACKED;
+        }
 
         return useAbility(attackedCard, table, curPlayerId);
     }
@@ -89,23 +94,25 @@ public class TableCard extends Card {
      */
     @Override
     public String
-    attackCard(GameTable table, int curPlayerId, Card attackedCard) {
-        String error;
+    attackCard(final GameTable table, final int curPlayerId, final Card attackedCard) {
+        final String error;
         if (attackedCard.isHero()) {
             error = getAttackHeroError(table, curPlayerId, attackedCard);
         } else {
             error = getAttackCardError(table, curPlayerId, attackedCard);
         }
 
-        if (error != null)
+        if (error != null) {
             return error;
+        }
 
         attackedCard.setHealth(attackedCard.getHealth() - attackDamage);
         setHasAttacked(true);
         if (attackedCard.getHealth() <= 0) {
             attackedCard.setHealth(0);
-            if (attackedCard.isHero())
+            if (attackedCard.isHero()) {
                 return Game.gameEnded(curPlayerId);
+            }
 
             table.removeCard(attackedCard);
         }
@@ -115,41 +122,50 @@ public class TableCard extends Card {
 
 
     private String
-    getAttackCardError(GameTable table, int curPlayerId, Card attackedCard) {
-        if (getBelongsTo() != curPlayerId)
-            return attackerDontBelongCur;
+    getAttackCardError(final GameTable table, final int curPlayerId, final Card attackedCard) {
+        if (getBelongsTo() != curPlayerId) {
+            return ATTACKER_DONT_BELONG_CUR;
+        }
 
-        if (attackedCard.getBelongsTo() == curPlayerId)
-            return attackedDontBelongEnnemy;
+        if (attackedCard.getBelongsTo() == curPlayerId) {
+            return ATTACKED_DONT_BELONG_ENNEMY;
+        }
 
-        if (getHasAttacked())
-            return cardAlreadyAttacked;
+        if (getHasAttacked()) {
+            return CARD_ALREADY_ATTACKED;
+        }
 
-        if (isFrozen())
-            return isFrozen;
+        if (isFrozen()) {
+            return IS_FROZEN;
+        }
 
-        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
-        if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
-            return notTank;
+        final int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
+        if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank()) {
+            return NOT_TANK;
+        }
 
         return null;
     }
 
 
     private String
-    getAttackHeroError(GameTable table, int curPlayerId, Card attackedCard) {
-        if (attackedCard.getBelongsTo() == curPlayerId)
-            return attackedDontBelongEnnemy;
+    getAttackHeroError(final GameTable table, final int curPlayerId, final Card attackedCard) {
+        if (attackedCard.getBelongsTo() == curPlayerId) {
+            return ATTACKED_DONT_BELONG_ENNEMY;
+        }
 
-        if (isFrozen())
-            return isFrozen;
+        if (isFrozen()) {
+            return IS_FROZEN;
+        }
 
-        if (getHasAttacked())
-            return cardAlreadyAttacked;
+        if (getHasAttacked()) {
+            return CARD_ALREADY_ATTACKED;
+        }
 
-        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
-        if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank())
-            return notTank;
+        final int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
+        if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank()) {
+            return NOT_TANK;
+        }
 
         return null;
     }
@@ -160,19 +176,18 @@ public class TableCard extends Card {
      */
     @Override
     public ObjectNode writeCard() {
-        ObjectNode minionNode = JsonNode.mapper.createObjectNode();
+        final ObjectNode minionNode = JsonNode.mapper.createObjectNode();
 
         minionNode.put("mana", getMana());
         minionNode.put("attackDamage", getAttackDamage());
         minionNode.put("health", getHealth());
         minionNode.put("description", getDescription());
-        ArrayNode colorArray = JsonNode.writeColors(getColors());
+        final ArrayNode colorArray = JsonNode.writeColors(getColors());
         minionNode.set("colors", colorArray);
         minionNode.put("name", getName());
 
         return minionNode;
     }
-
 
 
     @Override
@@ -181,7 +196,7 @@ public class TableCard extends Card {
     }
 
     @Override
-    public void setAttackDamage(int attackDamage) {
+    public void setAttackDamage(final int attackDamage) {
         this.attackDamage = attackDamage;
     }
 
@@ -197,7 +212,7 @@ public class TableCard extends Card {
      * {@inheritDoc}
      */
     @Override
-    public void setFrozen(boolean frozen) {
+    public void setFrozen(final boolean frozen) {
         this.frozen = frozen;
     }
 
@@ -209,7 +224,7 @@ public class TableCard extends Card {
         return rowToPlace;
     }
 
-    public void setRowToPlace(int rowToPlace) {
+    public void setRowToPlace(final int rowToPlace) {
         this.rowToPlace = rowToPlace;
     }
 }
