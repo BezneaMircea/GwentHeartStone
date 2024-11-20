@@ -25,10 +25,10 @@ public final class GeneralKocioraw extends Hero {
     }
 
     private void bloodThirst(final GameTable table, final int affectedRow) {
-        final ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
+        ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
 
-        for (final Card card : affectedCards) {
-            final int currentDamage = card.getAttackDamage();
+        for (Card card : affectedCards) {
+            int currentDamage = card.getAttackDamage();
             card.setAttackDamage(currentDamage + GENERAL_KOCIORAW_ADDED_DAMAGE);
         }
     }

@@ -62,8 +62,8 @@ public final class GamesSetup {
      * Method used in order to play all the games
      */
     public void playTheGames() {
-        for (final GameInput gameInput : games) {
-            final Game newGame = currentGameSetup(gameInput);
+        for (GameInput gameInput : games) {
+            Game newGame = currentGameSetup(gameInput);
             playTheGame(newGame, gameInput.getActions());
         }
     }
@@ -102,24 +102,24 @@ public final class GamesSetup {
     }
 
     private Game currentGameSetup(final GameInput gameInput) {
-        final StartGameInput startGameInput = gameInput.getStartGame();
+        StartGameInput startGameInput = gameInput.getStartGame();
 
         int playerOneDeckIndex = getPlayerDeckIndex(PLAYER_ONE_IDX, startGameInput);
-        final int playerTwoDeckIndex = getPlayerDeckIndex(PLAYER_TWO_IDX, startGameInput);
-        final ArrayList<CardInput> playerOneDeck = getPlayerDeck(PLAYER_ONE_IDX,
+        int playerTwoDeckIndex = getPlayerDeckIndex(PLAYER_TWO_IDX, startGameInput);
+        ArrayList<CardInput> playerOneDeck = getPlayerDeck(PLAYER_ONE_IDX,
                                                                  playerOneDeckIndex);
-        final ArrayList<CardInput> playerTwoDeck = getPlayerDeck(PLAYER_TWO_IDX,
+        ArrayList<CardInput> playerTwoDeck = getPlayerDeck(PLAYER_TWO_IDX,
                                                                  playerTwoDeckIndex);
 
-        final CardInput playerOneHero = getPlayerHero(PLAYER_ONE_IDX, startGameInput);
-        final CardInput playerTwoHero = getPlayerHero(PLAYER_TWO_IDX, startGameInput);
+        CardInput playerOneHero = getPlayerHero(PLAYER_ONE_IDX, startGameInput);
+        CardInput playerTwoHero = getPlayerHero(PLAYER_TWO_IDX, startGameInput);
 
-        final Player playerOne = new Player(playerOneHero, playerOneDeck, PLAYER_ONE_IDX);
-        final Player playerTwo = new Player(playerTwoHero, playerTwoDeck, PLAYER_TWO_IDX);
+        Player playerOne = new Player(playerOneHero, playerOneDeck, PLAYER_ONE_IDX);
+        Player playerTwo = new Player(playerTwoHero, playerTwoDeck, PLAYER_TWO_IDX);
 
-        final long seed = getSeed(startGameInput);
+        long seed = getSeed(startGameInput);
 
-        final int startingPlayer = startGameInput.getStartingPlayer();
+        int startingPlayer = startGameInput.getStartingPlayer();
 
         return new Game(playerOne, playerTwo, seed, startingPlayer);
     }

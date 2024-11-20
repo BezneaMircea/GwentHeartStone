@@ -95,7 +95,7 @@ public class TableCard extends Card {
     @Override
     public String
     attackCard(final GameTable table, final int curPlayerId, final Card attackedCard) {
-        final String error;
+        String error;
         if (attackedCard.isHero()) {
             error = getAttackHeroError(table, curPlayerId, attackedCard);
         } else {
@@ -139,7 +139,7 @@ public class TableCard extends Card {
             return IS_FROZEN;
         }
 
-        final int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
+        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank()) {
             return NOT_TANK;
         }
@@ -162,7 +162,7 @@ public class TableCard extends Card {
             return CARD_ALREADY_ATTACKED;
         }
 
-        final int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
+        int enemyIdx = GamesSetup.getOtherPlayerIdx(curPlayerId);
         if (table.doesPlayerHaveTanks(enemyIdx) && !attackedCard.isTank()) {
             return NOT_TANK;
         }
@@ -175,14 +175,14 @@ public class TableCard extends Card {
      * {@inheritDoc}
      */
     @Override
-    public ObjectNode writeCard() {
-        final ObjectNode minionNode = JsonNode.MAPPER.createObjectNode();
+    public final ObjectNode writeCard() {
+        ObjectNode minionNode = JsonNode.MAPPER.createObjectNode();
 
         minionNode.put("mana", getMana());
         minionNode.put("attackDamage", getAttackDamage());
         minionNode.put("health", getHealth());
         minionNode.put("description", getDescription());
-        final ArrayNode colorArray = JsonNode.writeColors(getColors());
+        ArrayNode colorArray = JsonNode.writeColors(getColors());
         minionNode.set("colors", colorArray);
         minionNode.put("name", getName());
 
@@ -193,7 +193,7 @@ public class TableCard extends Card {
      * for coding style
      */
     @Override
-    public int getAttackDamage() {
+    public final int getAttackDamage() {
         return attackDamage;
     }
 
@@ -201,7 +201,7 @@ public class TableCard extends Card {
      * for coding style
      */
     @Override
-    public void setAttackDamage(final int attackDamage) {
+    public final void setAttackDamage(final int attackDamage) {
         this.attackDamage = attackDamage;
     }
 
@@ -209,7 +209,7 @@ public class TableCard extends Card {
      * {@inheritDoc}
      */
     @Override
-    public boolean isFrozen() {
+    public final boolean isFrozen() {
         return frozen;
     }
 
@@ -217,7 +217,7 @@ public class TableCard extends Card {
      * {@inheritDoc}
      */
     @Override
-    public void setFrozen(final boolean frozen) {
+    public final void setFrozen(final boolean frozen) {
         this.frozen = frozen;
     }
 
@@ -225,14 +225,14 @@ public class TableCard extends Card {
      * {@inheritDoc}
      */
     @Override
-    public int getRowToPlace() {
+    public final int getRowToPlace() {
         return rowToPlace;
     }
 
     /**
      * for coding style
      */
-    public void setRowToPlace(final int rowToPlace) {
+    public final void setRowToPlace(final int rowToPlace) {
         this.rowToPlace = rowToPlace;
     }
 }

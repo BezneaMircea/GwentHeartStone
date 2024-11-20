@@ -22,7 +22,7 @@ public final class LordRoyce extends Hero {
     }
 
     private void subZero(final GameTable table, final int affectedRow) {
-        for (final Card card : table.getTable().get(affectedRow)) {
+        for (Card card : table.getTable().get(affectedRow)) {
             card.setFrozen(true);
         }
     }

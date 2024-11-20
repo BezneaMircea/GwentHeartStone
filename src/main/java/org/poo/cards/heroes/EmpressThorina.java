@@ -25,7 +25,7 @@ public final class EmpressThorina extends Hero {
 
     private void
     lowBlow(final GameTable table, final int affectedRow) {
-        final ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
+        ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
 
         if (affectedCards.isEmpty()) {
             return;
@@ -33,7 +33,7 @@ public final class EmpressThorina extends Hero {
 
         Card cardToDestroy = affectedCards.getFirst();
         int maxHealth = 0;
-        for (final Card card : affectedCards) {
+        for (Card card : affectedCards) {
             if (card.getHealth() > maxHealth) {
                 maxHealth = card.getHealth();
                 cardToDestroy = card;

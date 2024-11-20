@@ -43,7 +43,7 @@ public class Game {
      * @param startingPlayer the starting player of the game
      */
     public Game(final Player playerOne, final Player playerTwo,
-                    final long seed, final int startingPlayer) {
+                final long seed, final int startingPlayer) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
@@ -92,8 +92,8 @@ public class Game {
      */
     public void performAllActions(final ArrayList<ActionsInput> actions, final ArrayNode output) {
         newRound();
-        for (final ActionsInput action : actions) {
-            final ObjectNode actionOutput = performAction(action);
+        for (ActionsInput action : actions) {
+            ObjectNode actionOutput = performAction(action);
             if (actionOutput != null) {
                 output.add(actionOutput);
             }
@@ -101,7 +101,7 @@ public class Game {
     }
 
     private ObjectNode performAction(final ActionsInput action) {
-        final String command = action.getCommand();
+        String command = action.getCommand();
         return switch (command) {
             case "getPlayerDeck" -> getPlayerDeck(action);
             case "getPlayerHero" -> getPlayerHero(action);
@@ -119,9 +119,9 @@ public class Game {
             case "endPlayerTurn" -> endPlayerTurn();
             case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
             case "getPlayerOneWins" -> JsonNode.writePlayerWins(action,
-                                                                GamesSetup.getPlayerOneWins());
+                    GamesSetup.getPlayerOneWins());
             case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action,
-                                                                GamesSetup.getPlayerTwoWins());
+                    GamesSetup.getPlayerTwoWins());
             default -> null;
         };
 
@@ -204,8 +204,8 @@ public class Game {
 
 
     private ObjectNode placeCard(final ActionsInput action) {
-        final Player player = getInstanceOfCurrentPlayer();
-        final String error = player.placeCard(table, action.getHandIdx());
+        Player player = getInstanceOfCurrentPlayer();
+        String error = player.placeCard(table, action.getHandIdx());
 
         return JsonNode.writePlaceCard(action, error);
     }
@@ -235,8 +235,8 @@ public class Game {
 
 
     private ObjectNode getCardAtPosition(final ActionsInput action) {
-        final Coordinates wantedCardCord = new Coordinates(action.getX(), action.getY());
-        final Card wantedCard = table.getElement(wantedCardCord);
+        Coordinates wantedCardCord = new Coordinates(action.getX(), action.getY());
+        Card wantedCard = table.getElement(wantedCardCord);
 
         String error = null;
         if (wantedCard == null) {
@@ -248,46 +248,46 @@ public class Game {
 
 
     private ObjectNode cardUsesAttack(final ActionsInput action) {
-        final Coordinates attackerCord = action.getCardAttacker();
-        final Coordinates attackedCord = action.getCardAttacked();
-        final Card attackerCard = table.getElement(attackerCord);
-        final Card attackedCard = table.getElement(attackedCord);
+        Coordinates attackerCord = action.getCardAttacker();
+        Coordinates attackedCord = action.getCardAttacked();
+        Card attackerCard = table.getElement(attackerCord);
+        Card attackedCard = table.getElement(attackedCord);
 
         if (attackerCard == null || attackedCard == null) {
             return null;
         }
 
-        final String error = attackerCard.attackCard(table, currentPlayer, attackedCard);
+        String error = attackerCard.attackCard(table, currentPlayer, attackedCard);
 
         return JsonNode.writeCardUsesAttack(action, error);
     }
 
 
     private ObjectNode cardUsesAbility(final ActionsInput action) {
-        final Coordinates attackerCord = action.getCardAttacker();
-        final Coordinates attackedCord = action.getCardAttacked();
-        final Card attackerCard = table.getElement(attackerCord);
-        final Card attackedCard = table.getElement(attackedCord);
+        Coordinates attackerCord = action.getCardAttacker();
+        Coordinates attackedCord = action.getCardAttacked();
+        Card attackerCard = table.getElement(attackerCord);
+        Card attackedCard = table.getElement(attackedCord);
 
         if (attackerCard == null) {
             return null;
         }
 
-        final String error = attackerCard.useCardAbility(attackedCard, table, currentPlayer);
+        String error = attackerCard.useCardAbility(attackedCard, table, currentPlayer);
         return JsonNode.writeCardUsesAbility(action, error);
     }
 
 
     private ObjectNode useAttackHero(final ActionsInput action) {
-        final Coordinates attackerCord = action.getCardAttacker();
-        final Card attackerCard = table.getElement(attackerCord);
+        Coordinates attackerCord = action.getCardAttacker();
+        Card attackerCard = table.getElement(attackerCord);
 
         if (attackerCard == null) {
             return null;
         }
 
-        final Player player = getInstanceOfWaitingPlayer();
-        final String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
+        Player player = getInstanceOfWaitingPlayer();
+        String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
 
         if (PLAYER_ONE_WON.equals(res)) {
             int playerOneWins = GamesSetup.getPlayerOneWins();
@@ -306,11 +306,11 @@ public class Game {
 
 
     private ObjectNode useHeroAbility(final ActionsInput action) {
-        final int affectedRow = action.getAffectedRow();
-        final Player player = getInstanceOfCurrentPlayer();
-        final Card hero = player.getHero();
+        int affectedRow = action.getAffectedRow();
+        Player player = getInstanceOfCurrentPlayer();
+        Card hero = player.getHero();
 
-        final String error = hero.useHeroAbility(table, affectedRow, player);
+        String error = hero.useHeroAbility(table, affectedRow, player);
 
         if (error == null) {
             player.setMana(player.getMana() - hero.getMana());
@@ -327,7 +327,7 @@ public class Game {
 
 
     private ObjectNode getTotalGamesPlayed(final ActionsInput action) {
-        final int gamesPlayed = GamesSetup.getTotalGamesPlayed();
+        int gamesPlayed = GamesSetup.getTotalGamesPlayed();
         return JsonNode.writeTotalGamesPlayed(action, gamesPlayed);
     }
 

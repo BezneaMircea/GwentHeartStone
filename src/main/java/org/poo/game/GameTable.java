@@ -55,7 +55,7 @@ public final class GameTable {
     public Card getElement(final Coordinates cord) {
         try {
             return table.get(cord.getX()).get(cord.getY());
-        } catch (final IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
     }
@@ -81,7 +81,7 @@ public final class GameTable {
             return NOT_ENOUGH_MANA_CARD;
         }
 
-        final int rowToPlace = card.getRowToPlace();
+        int rowToPlace = card.getRowToPlace();
         if (table.get(rowToPlace).size() > nrColsOnTable) {
             return TABLE_IS_FULL;
         }
@@ -100,13 +100,13 @@ public final class GameTable {
      */
     public boolean doesPlayerHaveTanks(final int playerIdx) {
         if (playerIdx == GamesSetup.PLAYER_ONE_IDX) {
-            for (final Card card : table.get(PLAYER_ONE_FRONT_ROW)) {
+            for (Card card : table.get(PLAYER_ONE_FRONT_ROW)) {
                 if (card.isTank()) {
                     return true;
                 }
             }
         } else {
-            for (final Card card : table.get(PLAYER_TWO_FRONT_ROW)) {
+            for (Card card : table.get(PLAYER_TWO_FRONT_ROW)) {
                 if (card.isTank()) {
                     return true;
                 }
@@ -150,7 +150,7 @@ public final class GameTable {
     }
 
     private void resetCardsOnRow(final int row) {
-        for (final Card card : table.get(row)) {
+        for (Card card : table.get(row)) {
             card.setHasAttacked(false);
             card.setFrozen(false);
         }

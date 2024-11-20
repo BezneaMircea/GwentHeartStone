@@ -66,7 +66,7 @@ public final class Main {
      */
     public static void action(final String filePath1,
                               final String filePath2) throws IOException {
-        final ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         Input inputData = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePath1),
                 Input.class);
 

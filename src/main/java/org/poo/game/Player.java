@@ -39,7 +39,7 @@ public final class Player {
      * @param playerId id of the current player
      */
     public Player(final CardInput hero, final ArrayList<CardInput> deck, final int playerId) {
-        final String heroName = hero.getName();
+        String heroName = hero.getName();
         switch (heroName) {
             case "Lord Royce":
                 this.hero = new LordRoyce(hero, playerId);
@@ -58,8 +58,8 @@ public final class Player {
         }
 
         this.deck = new ArrayList<Card>();
-        for (final CardInput card : deck) {
-            final String name = card.getName();
+        for (CardInput card : deck) {
+            String name = card.getName();
             switch (name) {
                 case "The Ripper":
                     this.deck.add(new TheRipper(card, playerId));
@@ -111,9 +111,9 @@ public final class Player {
      * null if no error was found
      */
     public String placeCard(final GameTable table, final int handIdx) {
-        final Card card = hand.get(handIdx);
+        Card card = hand.get(handIdx);
 
-        final String error = table.addCard(card, mana);
+        String error = table.addCard(card, mana);
         if (error != null) {
             return error;
         }

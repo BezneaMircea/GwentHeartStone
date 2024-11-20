@@ -38,7 +38,7 @@ public final class Miraj extends FrontRowCard {
             return NOT_TANK;
         }
 
-        final int aux = getHealth();
+        int aux = getHealth();
         setHealth(attackedCard.getHealth());
         attackedCard.setHealth(aux);
         setHasAttacked(true);

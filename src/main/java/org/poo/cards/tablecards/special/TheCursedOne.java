@@ -36,7 +36,7 @@ public final class TheCursedOne extends BackRowCard {
             return NOT_TANK;
         }
 
-        final int cardAttackDamage = attackedCard.getAttackDamage();
+        int cardAttackDamage = attackedCard.getAttackDamage();
         attackedCard.setAttackDamage(attackedCard.getHealth());
         attackedCard.setHealth(cardAttackDamage);
 

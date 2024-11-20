@@ -25,10 +25,10 @@ public final class KingMudface extends Hero {
     }
 
     private void earthBorn(final GameTable table, final int affectedRow) {
-        final ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
+        ArrayList<Card> affectedCards = table.getTable().get(affectedRow);
 
-        for (final Card card : affectedCards) {
-            final int currentHealth = card.getHealth();
+        for (Card card : affectedCards) {
+            int currentHealth = card.getHealth();
             card.setHealth(currentHealth + KING_MUDFACE_ADDED_HP);
         }
     }
