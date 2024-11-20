@@ -35,22 +35,22 @@ public final class Main {
      * @throws IOException in case of exceptions to reading / writing
      */
     public static void main(final String[] args) throws IOException {
-        final File directory = new File(CheckerConstants.TESTS_PATH);
-        final Path path = Paths.get(CheckerConstants.RESULT_PATH);
+        File directory = new File(CheckerConstants.TESTS_PATH);
+        Path path = Paths.get(CheckerConstants.RESULT_PATH);
 
         if (Files.exists(path)) {
-            final File resultFile = new File(String.valueOf(path));
-            for (final File file : Objects.requireNonNull(resultFile.listFiles())) {
+            File resultFile = new File(String.valueOf(path));
+            for (File file : Objects.requireNonNull(resultFile.listFiles())) {
                 file.delete();
             }
             resultFile.delete();
         }
         Files.createDirectories(path);
 
-        for (final File file : Objects.requireNonNull(directory.listFiles())) {
-            final String filepath = CheckerConstants.OUT_PATH + file.getName();
-            final File out = new File(filepath);
-            final boolean isCreated = out.createNewFile();
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            String filepath = CheckerConstants.OUT_PATH + file.getName();
+            File out = new File(filepath);
+            boolean isCreated = out.createNewFile();
             if (isCreated) {
                 action(file.getName(), filepath);
             }
