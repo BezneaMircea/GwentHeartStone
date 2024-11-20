@@ -42,7 +42,8 @@ public class Game {
      * @param seed           seed of the current game
      * @param startingPlayer the starting player of the game
      */
-    public Game(final Player playerOne, final Player playerTwo, final long seed, final int startingPlayer) {
+    public Game(final Player playerOne, final Player playerTwo,
+                    final long seed, final int startingPlayer) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
@@ -54,15 +55,17 @@ public class Game {
         this.seed = new Random();
 
         this.seed.setSeed(seed);
-        ShuffleDeck(playerOne.getDeck(), this.seed);
+        shuffleDeck(playerOne.getDeck());
 
         this.seed.setSeed(seed);
-        ShuffleDeck(playerTwo.getDeck(), this.seed);
+        shuffleDeck(playerTwo.getDeck());
 
-        GamesSetup.totalGamesPlayed++;
+        int totalGamesPlayed = GamesSetup.getTotalGamesPlayed();
+        totalGamesPlayed++;
+        GamesSetup.setTotalGamesPlayed(totalGamesPlayed);
     }
 
-    private void ShuffleDeck(final ArrayList<Card> deck, final Random seed) {
+    private void shuffleDeck(final ArrayList<Card> deck) {
         Collections.shuffle(deck, this.seed);
     }
 
@@ -115,8 +118,10 @@ public class Game {
             case "placeCard" -> placeCard(action);
             case "endPlayerTurn" -> endPlayerTurn();
             case "getTotalGamesPlayed" -> getTotalGamesPlayed(action);
-            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerOneWins);
-            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action, GamesSetup.playerTwoWins);
+            case "getPlayerOneWins" -> JsonNode.writePlayerWins(action,
+                                                                GamesSetup.getPlayerOneWins());
+            case "getPlayerTwoWins" -> JsonNode.writePlayerWins(action,
+                                                                GamesSetup.getPlayerTwoWins());
             default -> null;
         };
 
@@ -285,11 +290,15 @@ public class Game {
         final String res = attackerCard.attackCard(table, currentPlayer, player.getHero());
 
         if (PLAYER_ONE_WON.equals(res)) {
-            GamesSetup.playerOneWins++;
+            int playerOneWins = GamesSetup.getPlayerOneWins();
+            playerOneWins++;
+            GamesSetup.setPlayerOneWins(playerOneWins);
         }
 
         if (PLAYER_TWO_WON.equals(res)) {
-            GamesSetup.playerTwoWins++;
+            int playerTwoWins = GamesSetup.getPlayerTwoWins();
+            playerTwoWins++;
+            GamesSetup.setPlayerTwoWins(playerTwoWins);
         }
 
         return JsonNode.writeUseAttackHero(action, res);
@@ -318,7 +327,7 @@ public class Game {
 
 
     private ObjectNode getTotalGamesPlayed(final ActionsInput action) {
-        final int gamesPlayed = GamesSetup.totalGamesPlayed;
+        final int gamesPlayed = GamesSetup.getTotalGamesPlayed();
         return JsonNode.writeTotalGamesPlayed(action, gamesPlayed);
     }
 

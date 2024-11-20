@@ -27,7 +27,8 @@ public final class Miraj extends FrontRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+    protected String
+    useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
         if (attackedCard.getBelongsTo() == currentPlayer) {
             return ATTACKED_DONT_BELONG_ENNEMY;
         }

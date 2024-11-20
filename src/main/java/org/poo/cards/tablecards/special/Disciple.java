@@ -25,7 +25,8 @@ public final class Disciple extends BackRowCard {
      * {@inheritDoc}
      */
     @Override
-    protected String useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
+    protected String
+    useAbility(final Card attackedCard, final GameTable table, final int currentPlayer) {
         if (attackedCard.getBelongsTo() != currentPlayer) {
             return ATTACKED_DONT_BELONG_CUR;
         }

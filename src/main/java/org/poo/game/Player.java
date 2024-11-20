@@ -1,7 +1,11 @@
 package org.poo.game;
 
-import org.poo.cards.*;
-import org.poo.cards.heroes.*;
+
+import org.poo.cards.Card;
+import org.poo.cards.heroes.EmpressThorina;
+import org.poo.cards.heroes.GeneralKocioraw;
+import org.poo.cards.heroes.KingMudface;
+import org.poo.cards.heroes.LordRoyce;
 import org.poo.cards.tablecards.special.Disciple;
 import org.poo.cards.tablecards.special.Miraj;
 import org.poo.cards.tablecards.special.TheCursedOne;

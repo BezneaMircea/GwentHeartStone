@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * input + (output)/(output errors) in JSON format
  */
 public final class JsonNode {
-    public static final ObjectMapper mapper = new ObjectMapper();
+    public static final ObjectMapper MAPPER = new ObjectMapper();
 
 
     private JsonNode() {
@@ -29,7 +29,7 @@ public final class JsonNode {
      * @return and ArrayNode representing the JSON format of the color's list
      */
     public static ArrayNode writeColors(final ArrayList<String> colors) {
-        final ArrayNode colorArray = mapper.createArrayNode();
+        final ArrayNode colorArray = MAPPER.createArrayNode();
         for (final String color : colors) {
             colorArray.add(color);
         }
@@ -43,7 +43,7 @@ public final class JsonNode {
 
     private static ArrayNode
     writeDeck(final ArrayList<Card> deck) {
-        final ArrayNode deckNode = mapper.createArrayNode();
+        final ArrayNode deckNode = MAPPER.createArrayNode();
         for (final Card card : deck) {
             deckNode.add(writeCard(card));
         }
@@ -62,7 +62,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writePlayerDeck(final ActionsInput action, final ArrayList<Card> deck) {
-        final ObjectNode deckNode = mapper.createObjectNode();
+        final ObjectNode deckNode = MAPPER.createObjectNode();
         deckNode.put("command", action.getCommand());
         deckNode.put("playerIdx", action.getPlayerIdx());
         deckNode.set("output", writeDeck(deck));
@@ -80,7 +80,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writePlayerHero(final ActionsInput action, final Card hero) {
-        final ObjectNode heroNode = mapper.createObjectNode();
+        final ObjectNode heroNode = MAPPER.createObjectNode();
         heroNode.put("command", action.getCommand());
         heroNode.put("playerIdx", action.getPlayerIdx());
         heroNode.set("output", writeCard(hero));
@@ -99,7 +99,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writePlayerTurn(final ActionsInput action, final int currentPlayer) {
-        final ObjectNode turnNode = mapper.createObjectNode();
+        final ObjectNode turnNode = MAPPER.createObjectNode();
         turnNode.put("command", action.getCommand());
         turnNode.put("output", currentPlayer);
 
@@ -122,7 +122,7 @@ public final class JsonNode {
             return null;
         }
 
-        final ObjectNode placeCardNode = mapper.createObjectNode();
+        final ObjectNode placeCardNode = MAPPER.createObjectNode();
         placeCardNode.put("command", action.getCommand());
         placeCardNode.put("handIdx", action.getHandIdx());
         placeCardNode.put("error", error);
@@ -157,7 +157,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writePlayerMana(final ActionsInput action, final int mana) {
-        final ObjectNode playerManaNode = mapper.createObjectNode();
+        final ObjectNode playerManaNode = MAPPER.createObjectNode();
         playerManaNode.put("command", action.getCommand());
         playerManaNode.put("playerIdx", action.getPlayerIdx());
         playerManaNode.put("output", mana);
@@ -175,10 +175,10 @@ public final class JsonNode {
      */
     public static ObjectNode
     writeCardsOnTable(final ActionsInput action, final GameTable table) {
-        final ObjectNode tableNode = mapper.createObjectNode();
+        final ObjectNode tableNode = MAPPER.createObjectNode();
         tableNode.put("command", action.getCommand());
 
-        final ArrayNode cardsOnTableNode = mapper.createArrayNode();
+        final ArrayNode cardsOnTableNode = MAPPER.createArrayNode();
         for (final ArrayList<Card> row : table.getTable()) {
             cardsOnTableNode.add(writeDeck(row));
         }
@@ -201,7 +201,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writeCardAtPosition(final ActionsInput action, final Card card, final String error) {
-        final ObjectNode positionNode = mapper.createObjectNode();
+        final ObjectNode positionNode = MAPPER.createObjectNode();
         positionNode.put("command", action.getCommand());
         positionNode.put("x", action.getX());
         positionNode.put("y", action.getY());
@@ -218,7 +218,7 @@ public final class JsonNode {
 
     private static ObjectNode
     writeCoordinates(final Coordinates cord) {
-        final ObjectNode coordinatesNode = mapper.createObjectNode();
+        final ObjectNode coordinatesNode = MAPPER.createObjectNode();
         coordinatesNode.put("x", cord.getX());
         coordinatesNode.put("y", cord.getY());
 
@@ -241,7 +241,7 @@ public final class JsonNode {
             return null;
         }
 
-        final ObjectNode cardAttacks = mapper.createObjectNode();
+        final ObjectNode cardAttacks = MAPPER.createObjectNode();
         cardAttacks.set("cardAttacker", writeCoordinates(action.getCardAttacker()));
         cardAttacks.set("cardAttacked", writeCoordinates(action.getCardAttacked()));
         cardAttacks.put("command", action.getCommand());
@@ -266,7 +266,7 @@ public final class JsonNode {
             return null;
         }
 
-        final ObjectNode cardUsesAbility = mapper.createObjectNode();
+        final ObjectNode cardUsesAbility = MAPPER.createObjectNode();
         cardUsesAbility.put("command", action.getCommand());
         cardUsesAbility.set("cardAttacker", writeCoordinates(action.getCardAttacker()));
         cardUsesAbility.set("cardAttacked", writeCoordinates(action.getCardAttacked()));
@@ -289,7 +289,7 @@ public final class JsonNode {
             return null;
         }
 
-        final ObjectNode useAttackHeroNode = mapper.createObjectNode();
+        final ObjectNode useAttackHeroNode = MAPPER.createObjectNode();
 
         if (res.equals(Game.PLAYER_ONE_WON) || res.equals(Game.PLAYER_TWO_WON)) {
             useAttackHeroNode.put("gameEnded", res);
@@ -316,7 +316,7 @@ public final class JsonNode {
             return null;
         }
 
-        final ObjectNode heroAbilityNode = mapper.createObjectNode();
+        final ObjectNode heroAbilityNode = MAPPER.createObjectNode();
 
         heroAbilityNode.put("command", action.getCommand());
         heroAbilityNode.put("affectedRow", action.getAffectedRow());
@@ -336,9 +336,9 @@ public final class JsonNode {
      */
     public static ObjectNode
     writeFrozenCardsOnTable(final ActionsInput action, final GameTable table) {
-        final ObjectNode frozenCardsNode = mapper.createObjectNode();
+        final ObjectNode frozenCardsNode = MAPPER.createObjectNode();
 
-        final ArrayNode frozenCards = mapper.createArrayNode();
+        final ArrayNode frozenCards = MAPPER.createArrayNode();
         for (final ArrayList<Card> row : table.getTable()) {
             for (final Card card : row) {
                 if (card.isFrozen()) {
@@ -365,7 +365,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writeTotalGamesPlayed(final ActionsInput action, final int totalGamesPlayed) {
-        final ObjectNode totalGamesPlayedNode = mapper.createObjectNode();
+        final ObjectNode totalGamesPlayedNode = MAPPER.createObjectNode();
 
         totalGamesPlayedNode.put("command", action.getCommand());
         totalGamesPlayedNode.put("output", totalGamesPlayed);
@@ -385,7 +385,7 @@ public final class JsonNode {
      */
     public static ObjectNode
     writePlayerWins(final ActionsInput action, final int playerWins) {
-        final ObjectNode playerWinsNode = mapper.createObjectNode();
+        final ObjectNode playerWinsNode = MAPPER.createObjectNode();
 
         playerWinsNode.put("command", action.getCommand());
         playerWinsNode.put("output", playerWins);

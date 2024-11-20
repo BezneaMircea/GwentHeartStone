@@ -19,9 +19,9 @@ public final class GamesSetup {
     public static final int PLAYER_TWO_IDX = 2;
     public static final int INITIAL_MANA = 1;
     public static final int MAX_MANA_GIVEN = 10;
-    public static int totalGamesPlayed;
-    public static int playerOneWins;
-    public static int playerTwoWins;
+    private static int totalGamesPlayed;
+    private static int playerOneWins;
+    private  static int playerTwoWins;
 
     private final DecksInput playerOneDecks;
     private final DecksInput playerTwoDecks;
@@ -104,10 +104,12 @@ public final class GamesSetup {
     private Game currentGameSetup(final GameInput gameInput) {
         final StartGameInput startGameInput = gameInput.getStartGame();
 
-        final int playerOneDeckIndex = getPlayerDeckIndex(PLAYER_ONE_IDX, startGameInput);
+        int playerOneDeckIndex = getPlayerDeckIndex(PLAYER_ONE_IDX, startGameInput);
         final int playerTwoDeckIndex = getPlayerDeckIndex(PLAYER_TWO_IDX, startGameInput);
-        final ArrayList<CardInput> playerOneDeck = getPlayerDeck(PLAYER_ONE_IDX, playerOneDeckIndex);
-        final ArrayList<CardInput> playerTwoDeck = getPlayerDeck(PLAYER_TWO_IDX, playerTwoDeckIndex);
+        final ArrayList<CardInput> playerOneDeck = getPlayerDeck(PLAYER_ONE_IDX,
+                                                                 playerOneDeckIndex);
+        final ArrayList<CardInput> playerTwoDeck = getPlayerDeck(PLAYER_TWO_IDX,
+                                                                 playerTwoDeckIndex);
 
         final CardInput playerOneHero = getPlayerHero(PLAYER_ONE_IDX, startGameInput);
         final CardInput playerTwoHero = getPlayerHero(PLAYER_TWO_IDX, startGameInput);
@@ -118,12 +120,32 @@ public final class GamesSetup {
         final long seed = getSeed(startGameInput);
 
         final int startingPlayer = startGameInput.getStartingPlayer();
+
         return new Game(playerOne, playerTwo, seed, startingPlayer);
     }
 
 
-    public ArrayNode getOutput() {
-        return output;
+    public static int getTotalGamesPlayed() {
+        return totalGamesPlayed;
     }
 
+    public static void setTotalGamesPlayed(final int totalGamesPlayed) {
+        GamesSetup.totalGamesPlayed = totalGamesPlayed;
+    }
+
+    public static int getPlayerOneWins() {
+        return playerOneWins;
+    }
+
+    public static void setPlayerOneWins(final int playerOneWins) {
+        GamesSetup.playerOneWins = playerOneWins;
+    }
+
+    public static int getPlayerTwoWins() {
+        return playerTwoWins;
+    }
+
+    public static void setPlayerTwoWins(final int playerTwoWins) {
+        GamesSetup.playerTwoWins = playerTwoWins;
+    }
 }

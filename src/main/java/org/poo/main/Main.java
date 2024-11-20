@@ -67,15 +67,15 @@ public final class Main {
     public static void action(final String filePath1,
                               final String filePath2) throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper();
-        final Input inputData = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePath1),
+        Input inputData = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePath1),
                 Input.class);
 
-        final ArrayNode output = objectMapper.createArrayNode();
-        final GamesSetup games = new GamesSetup(inputData, output);
+        ArrayNode output = objectMapper.createArrayNode();
+        GamesSetup games = new GamesSetup(inputData, output);
         games.playTheGames();
 
 
-        final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
+        ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
     }
 }

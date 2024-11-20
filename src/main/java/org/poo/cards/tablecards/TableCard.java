@@ -176,7 +176,7 @@ public class TableCard extends Card {
      */
     @Override
     public ObjectNode writeCard() {
-        final ObjectNode minionNode = JsonNode.mapper.createObjectNode();
+        final ObjectNode minionNode = JsonNode.MAPPER.createObjectNode();
 
         minionNode.put("mana", getMana());
         minionNode.put("attackDamage", getAttackDamage());
@@ -189,12 +189,17 @@ public class TableCard extends Card {
         return minionNode;
     }
 
-
+    /**
+     * for coding style
+     */
     @Override
     public int getAttackDamage() {
         return attackDamage;
     }
 
+    /**
+     * for coding style
+     */
     @Override
     public void setAttackDamage(final int attackDamage) {
         this.attackDamage = attackDamage;
@@ -224,6 +229,9 @@ public class TableCard extends Card {
         return rowToPlace;
     }
 
+    /**
+     * for coding style
+     */
     public void setRowToPlace(final int rowToPlace) {
         this.rowToPlace = rowToPlace;
     }

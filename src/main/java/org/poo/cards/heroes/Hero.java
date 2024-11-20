@@ -16,14 +16,13 @@ import org.poo.utils.JsonNode;
  * Class used to represent a "Hero" card and the constants of a hero.
  */
 public class Hero extends Card {
-    public static final int HERO_INITIAL_HEALTH;
+    public static final int HERO_INITIAL_HEALTH = 30;
     public static final String NO_MANA_HERO;
     public static final String ALREADY_ATTACKED;
     public static final String ROW_NOT_ENEMY;
     public static final String ROW_NOT_CUR;
 
     static {
-        HERO_INITIAL_HEALTH = 30;
         NO_MANA_HERO = "Not enough mana to use hero's ability.";
         ALREADY_ATTACKED = "Hero has already attacked this turn.";
         ROW_NOT_ENEMY = "Selected row does not belong to the enemy.";
@@ -82,7 +81,7 @@ public class Hero extends Card {
      */
     @Override
     public ObjectNode writeCard() {
-        final ObjectNode heroNode = JsonNode.mapper.createObjectNode();
+        final ObjectNode heroNode = JsonNode.MAPPER.createObjectNode();
 
         heroNode.put("mana", getMana());
         heroNode.put("description", getDescription());
